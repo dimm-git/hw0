@@ -27,6 +27,7 @@ EXECUTE_PROCESS(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
 string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 
 enable_testing()
-add_test(NAME test_output COMMAND otus0)
+add_test(NAME test_output COMMAND ${PROJECT_SOURCE_DIR}/tests/00-output.sh ${PROJECT_BINARY_DIR}/otus0)
+add_test(NAME test_version COMMAND ${PROJECT_SOURCE_DIR}/tests/01-version.sh ${PROJECT_BINARY_DIR}/otus0)
 
 INCLUDE(CPack)
