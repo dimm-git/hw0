@@ -19,13 +19,9 @@ configure_file ("${PROJECT_SOURCE_DIR}/include/otus0.h.in" "${PROJECT_SOURCE_DIR
 ADD_EXECUTABLE(otus0 src/otus0.cpp)
 ADD_EXECUTABLE(test_version_defs tests/test_version.cpp)
 
-set_target_properties(otus0 PROPERTIES INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR})
-
-# set_target_properties(otus0 PROPERTIES COMPILE_OPTIONS -Wall -Wextra)
-set(TEST_INCLUDES, ${Boost_INCLUDE_DIR})
-list(APPEND TEST_INCLUDES ${PROJECT_SOURCE_DIR})
-set_target_properties(test_version_defs PROPERTIES COMPILE_OPTIONS -Wall -Wextra -g)
-set_target_properties(test_version_defs PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${TEST_INCLUDES})
+set(COMMON_FLAGS "-Wall")
+set_target_properties(otus0 test_version_defs PROPERTIES COMPILE_OPTIONS ${COMMON_FLAGS})
+set_target_properties(test_version_defs PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
 target_link_libraries(test_version_defs pthread ${Boost_LIBRARIES})
 
 INSTALL(TARGETS otus0 DESTINATION bin)
