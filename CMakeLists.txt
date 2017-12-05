@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
- 
 PROJECT(helloworld)
+
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 SET(OTUS_VERSION_MAJOR "1")
 SET(OTUS_VERSION_MINOR "0")
@@ -14,15 +14,18 @@ else()
     SET(OTUS_VERSION_PATCH "0")
 endif()
 
-configure_file ("${PROJECT_SOURCE_DIR}/include/otus0.h.in" "${PROJECT_BINARY_DIR}/include/otus0.h")
-
-include_directories("${PROJECT_BINARY_DIR}")
+configure_file ("${PROJECT_SOURCE_DIR}/include/otus0.h.in" "${PROJECT_SOURCE_DIR}/include/otus0.h")
 
 ADD_EXECUTABLE(otus0 src/otus0.cpp)
 ADD_EXECUTABLE(test_version_defs tests/test_version.cpp)
 
-set_target_properties(otus0 test_version_defs PROPERTIES COMPILE_OPTIONS -Wall -Wextra)
-set_target_properties(test_version_defs PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+set_target_properties(otus0 PROPERTIES INCLUDE_DIRECTORIES ${PROJECT_SOURCE_DIR})
+
+# set_target_properties(otus0 PROPERTIES COMPILE_OPTIONS -Wall -Wextra)
+set(TEST_INCLUDES, ${Boost_INCLUDE_DIR})
+list(APPEND TEST_INCLUDES ${PROJECT_SOURCE_DIR})
+set_target_properties(test_version_defs PROPERTIES COMPILE_OPTIONS -Wall -Wextra -g)
+set_target_properties(test_version_defs PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${TEST_INCLUDES})
 target_link_libraries(test_version_defs pthread ${Boost_LIBRARIES})
 
 INSTALL(TARGETS otus0 DESTINATION bin)
