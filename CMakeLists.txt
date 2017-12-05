@@ -16,16 +16,18 @@ endif()
 
 configure_file ("${PROJECT_SOURCE_DIR}/include/otus0.h.in" "${PROJECT_SOURCE_DIR}/include/otus0.h")
 
-ADD_EXECUTABLE(otus0 src/otus0.cpp)
+ADD_EXECUTABLE(helloworld src/otus0.cpp)
 ADD_EXECUTABLE(test_version_defs tests/test_version.cpp)
 
-set(COMMON_FLAGS "-Wall")
-set_target_properties(otus0 test_version_defs PROPERTIES COMPILE_OPTIONS ${COMMON_FLAGS})
-set_target_properties(test_version_defs PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR})
+target_include_directories(helloworld PUBLIC ${PROJECT_SOURCE_DIR})
+set_target_properties(helloworld test_version_defs PROPERTIES COMPILE_OPTIONS "-Wall")
+set_target_properties(test_version_defs PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK)
+
+target_include_directories(test_version_defs PUBLIC ${PROJECT_SOURCE_DIR} ${Boost_INCLUDE_DIR})
 target_link_libraries(test_version_defs pthread ${Boost_LIBRARIES})
 
-INSTALL(TARGETS otus0 DESTINATION bin)
- 
+INSTALL(TARGETS helloworld DESTINATION bin)
+
 SET(CPACK_GENERATOR "DEB")
 SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")
 SET(CPACK_PACKAGE_VERSION_MAJOR ${OTUS_VERSION_MAJOR})
@@ -35,8 +37,8 @@ EXECUTE_PROCESS(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
 string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 
 enable_testing()
-add_test(NAME test_output COMMAND ${PROJECT_SOURCE_DIR}/tests/00-output.sh ${PROJECT_BINARY_DIR}/otus0)
-add_test(NAME test_version COMMAND ${PROJECT_SOURCE_DIR}/tests/01-version.sh ${PROJECT_BINARY_DIR}/otus0)
+add_test(NAME test_output COMMAND ${PROJECT_SOURCE_DIR}/tests/00-output.sh ${PROJECT_BINARY_DIR}/helloworld)
+add_test(NAME test_version COMMAND ${PROJECT_SOURCE_DIR}/tests/01-version.sh ${PROJECT_BINARY_DIR}/helloworld)
 add_test(NAME test_version_defs COMMAND ${PROJECT_BINARY_DIR}/test_version_defs)
 
 INCLUDE(CPack)
