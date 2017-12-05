@@ -20,7 +20,7 @@ ADD_EXECUTABLE(helloworld src/otus0.cpp)
 ADD_EXECUTABLE(test_version_defs tests/test_version.cpp)
 
 target_include_directories(helloworld PUBLIC ${PROJECT_SOURCE_DIR})
-set_target_properties(helloworld test_version_defs PROPERTIES COMPILE_OPTIONS "-Wall")
+set_target_properties(helloworld test_version_defs PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 set_target_properties(test_version_defs PROPERTIES COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK)
 
 target_include_directories(test_version_defs PUBLIC ${PROJECT_SOURCE_DIR} ${Boost_INCLUDE_DIR})
