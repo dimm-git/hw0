@@ -17,10 +17,10 @@ endif()
 add_executable(ip_filter src/ip_filter.cpp)
 add_executable(ip_tests tests/src/tests.cpp)
 target_include_directories(ip_filter PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_compile_options(ip_filter PUBLIC -Wall -Wextra)
+target_compile_options(ip_filter PUBLIC -Wall -Wextra -Wpedantic)
 
 target_include_directories(ip_tests PUBLIC ${PROJECT_SOURCE_DIR}/include ${Boost_INCLUDE_DIR})
-target_compile_options(ip_tests PUBLIC -Wall -Wextra -g)
+target_compile_options(ip_tests PUBLIC -Wall -Wextra -g -Wpedantic)
 target_compile_definitions(ip_tests PUBLIC BOOST_TEST_DYN_LINK)
 target_link_libraries(ip_tests pthread ${Boost_LIBRARIES})
 

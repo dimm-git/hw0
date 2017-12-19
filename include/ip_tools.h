@@ -2,15 +2,16 @@
 
 #include <algorithm>
 #include <ostream>
-#include <vector>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 // sorry
 typedef std::tuple<int, int, int, int> ip_parts;
 
 namespace aux
 {
-    template <std::size_t... I, typename T>
+    template <typename T, std::size_t... I>
     auto vector_to_ip_tuple_impl(std::index_sequence<I...>, const std::vector<T>& v)
     {
         auto f = [ & ](std::size_t i) { return (i < v.size()) ? std::stoi(v[i]) : 0; };
