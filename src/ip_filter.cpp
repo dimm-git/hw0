@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
     hide_unused(argc, argv);
     try
     {
-        auto ins = std::ifstream("/home/dimm/devel/hw1/build/x");
+        auto& ins = std::cin;
         auto& outs = std::cout;
 
         auto ip_pool = std::move(read_pool(ins));
@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
             std::cout << "--- EOF ---" << std::endl;
         };
         std::vector<std::function<void ()> > v
-        { 
+        {
             [ & ]() { do_print(ip_pool); },
             [ & ]() { ip_sort(ip_pool); do_print(ip_pool); },
             [ & ]() { do_print(filter(ip_pool, 1)); },
