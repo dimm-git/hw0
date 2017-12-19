@@ -4,6 +4,8 @@ project(ip_filter)
 
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
+set(DEFAULT_CXX_STDLIB "libc++")
+
 set(OTUS_VERSION_MAJOR "1")
 set(OTUS_VERSION_MINOR "0")
 
