@@ -25,6 +25,8 @@ script:
 - cmake --build .
 - cmake --build . --target test
 - cmake --build . --target package
+- ./ip_tests -- tests/data/ip_filter.tsv
+- cat Testing/Temporary/LastTest.log
 deploy:
   provider: script
   skip_cleanup: true
