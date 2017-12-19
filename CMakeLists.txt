@@ -39,6 +39,6 @@ execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
 string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 
 enable_testing()
-add_test(NAME ip_test COMMAND ${PROJECT_BINARY_DIR}/ip_tests -- ${PROJECT_SOURCE_DIR}/tests/data/ip_filter.tsv)
+add_test(NAME ip_test COMMAND "${PROJECT_BINARY_DIR}/ip_tests" "${PROJECT_SOURCE_DIR}/tests/data/ip_filter.tsv")
 
 include(CPack)
