@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(map_alloc)
+project(allocator)
 
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
