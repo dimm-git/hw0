@@ -1,5 +1,5 @@
 OTUS C++ course  
 
-The "allocator tool": /usr/bin/allocator  
+The "allocator tool": ltrace /usr/bin/allocator  
 
 
