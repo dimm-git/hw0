@@ -44,7 +44,7 @@ auto gen_list(std::index_sequence<I...>)
     return list;
 }
 
-// #define TEXT_EXT
+// #define TEST_EXT
 
 int main(int, char**)
 {
