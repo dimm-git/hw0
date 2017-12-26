@@ -1,5 +1,5 @@
 OTUS C++ course  
 
-The "IP filter tool": ./ip_list  
+The "allocator tool": /usr/bin/allocator  
 
 
