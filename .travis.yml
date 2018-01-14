@@ -27,9 +27,9 @@ language: cpp
 
 before_script:
   - sudo apt-get install libboost-test-dev -y
+  - sudo apt-get install -y --allow-unauthenticated doxygen graphviz
   - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update -qq
-  - sudo apt-get install -y --allow-unauthenticated doxygen graphviz
 
 script:
 - CXX=g++-6 cmake .
