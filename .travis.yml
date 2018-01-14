@@ -32,7 +32,7 @@ before_script:
   - sudo apt-get install -y --allow-unauthenticated doxygen graphviz
 
 script:
-- cmake .
+- CXX=g++-6 cmake .
 - cmake --build .
 - cmake --build . --target package
 - cmake --build . --target doc
