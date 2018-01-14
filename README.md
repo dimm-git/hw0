@@ -1,5 +1,6 @@
 OTUS C++ course  
 
-The "allocator tool": ltrace /usr/bin/allocator  
+The "IP printer tool"  
+
 
 

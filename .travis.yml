@@ -1,3 +1,12 @@
+branches:
+  except:
+    - gh-pages
+
+env:
+  global:
+    - GH_REPO_NAME: hw0
+    - GH_REPO_REF: github.com/dimm-git/hw0.git
+
 matrix:
   include:
     # works on Precise and Trusty
@@ -20,11 +29,17 @@ before_script:
   - sudo apt-get install libboost-test-dev -y
   - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
   - sudo apt-get update -qq
+  - sudo apt-get install doxygen graphviz
+
 script:
 - cmake .
 - cmake --build .
 - cmake --build . --target package
+- cmake --build . --target doc
+- chmod a+x doc/gh-pages.sh
+- sh doc/gh-pages.sh
+
 deploy:
   provider: script
   skip_cleanup: true
-  script: curl -T allocator-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb -udimm-git:$BINTRAY_API_KEY "https://api.bintray.com/content/dimm-git/otus-cpp/allocator/$TRAVIS_BUILD_NUMBER/allocator-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  script: curl -T ip_printer-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb -udimm-git:$BINTRAY_API_KEY "https://api.bintray.com/content/dimm-git/otus-cpp/ip_printer/$TRAVIS_BUILD_NUMBER/ip_printer-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
