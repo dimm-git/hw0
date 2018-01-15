@@ -37,7 +37,7 @@ script:
 - cmake --build . --target package
 - cmake --build . --target doc
 - chmod a+x doc/gh-pages.sh
-- sh doc/gh-pages.sh
+- cd doc && sh gh-pages.sh
 
 deploy:
   provider: script
