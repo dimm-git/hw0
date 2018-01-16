@@ -17,9 +17,9 @@ git config user.email "ci@localhost"
 
 echo "" > .nojekyll
 
-[ -d ../../html ] && mv ../../html .
+[ -d ../../html ] && mv ../../html/* .
 
-if [ -d "html" ] && [ -f "html/index.html" ]; then
+if [ "index.html" ]; then
 
     echo 'deploy doc'
     git add --all
