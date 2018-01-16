@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>ip_printer: impl::print_ord&lt; uint8_t, 1, true &gt; Struct Template Reference</title>
+<title>ip_printer: include/print_ip.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -38,8 +38,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
+      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -60,9 +60,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="files.html"><span>File&#160;List</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -81,27 +79,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>impl</b></li><li class="navelem"><a class="el" href="structimpl_1_1print__ord_3_01uint8__t_00_011_00_01true_01_4.html">print_ord< uint8_t, 1, true ></a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="structimpl_1_1print__ord_3_01uint8__t_00_011_00_01true_01_4-members.html">List of all members</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
-<div class="title">impl::print_ord&lt; uint8_t, 1, true &gt; Struct Template Reference</div>  </div>
+<div class="title">print_ip.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><code>#include &quot;print_container.h&quot;</code><br/>
+<code>#include &quot;print_ord.h&quot;</code><br/>
+<code>#include &quot;print_tuple.h&quot;</code><br/>
+</div>
+<p><a href="print__ip_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ac3c424579a94c0635bb595a6dea34f12"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3c424579a94c0635bb595a6dea34f12"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (std::ostream &amp;strm, const unsigned char &amp;val)</td></tr>
-<tr class="separator:ac3c424579a94c0635bb595a6dea34f12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ae04c8fdf6879da8114328068e1eff55f"><td class="memTemplParams" colspan="2"><a class="anchor" id="ae04c8fdf6879da8114328068e1eff55f"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae04c8fdf6879da8114328068e1eff55f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if<br class="typebreak"/>
+&lt; std::is_integral&lt; T &gt;::value, <br class="typebreak"/>
+void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>print_ip</b> (std::ostream &amp;strm, const T &amp;val)</td></tr>
+<tr class="separator:ae04c8fdf6879da8114328068e1eff55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74642fcf65593187c68569cb5c462c20"><td class="memTemplParams" colspan="2"><a class="anchor" id="a74642fcf65593187c68569cb5c462c20"></a>
+template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:a74642fcf65593187c68569cb5c462c20"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>print_ip</b> (std::ostream &amp;strm, const std::tuple&lt; Args...&gt; &amp;val) -&gt; typename std::enable_if&lt; <a class="el" href="structimpl_1_1check__tuple.html">impl::check_tuple</a>&lt; std::remove_reference_t&lt; decltype(val)&gt; &gt;::value, void &gt;::type</td></tr>
+<tr class="separator:a74642fcf65593187c68569cb5c462c20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fbde40ea066385779dfac87e6f56df7"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0fbde40ea066385779dfac87e6f56df7"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a0fbde40ea066385779dfac87e6f56df7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if<br class="typebreak"/>
+&lt; <a class="el" href="structimpl_1_1is__container.html">impl::is_container</a>&lt; T &gt;<br class="typebreak"/>
+::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>print_ip</b> (std::ostream &amp;strm, const T &amp;val)</td></tr>
+<tr class="separator:a0fbde40ea066385779dfac87e6f56df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/<a class="el" href="print__ord_8h_source.html">print_ord.h</a></li>
-</ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
