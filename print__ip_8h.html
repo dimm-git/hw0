@@ -38,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -61,6 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -68,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Macros</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -89,35 +91,131 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">print_ip.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;print_container.h&quot;</code><br/>
-<code>#include &quot;print_ord.h&quot;</code><br/>
-<code>#include &quot;print_tuple.h&quot;</code><br/>
+<div class="textblock"><code>#include &quot;<a class="el" href="print__container_8h_source.html">print_container.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="print__ord_8h_source.html">print_ord.h</a>&quot;</code><br/>
+<code>#include &quot;<a class="el" href="print__tuple_8h_source.html">print_tuple.h</a>&quot;</code><br/>
 </div>
 <p><a href="print__ip_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae04c8fdf6879da8114328068e1eff55f"><td class="memTemplParams" colspan="2"><a class="anchor" id="ae04c8fdf6879da8114328068e1eff55f"></a>
-template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae04c8fdf6879da8114328068e1eff55f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ae04c8fdf6879da8114328068e1eff55f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if<br class="typebreak"/>
 &lt; std::is_integral&lt; T &gt;::value, <br class="typebreak"/>
-void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>print_ip</b> (std::ostream &amp;strm, const T &amp;val)</td></tr>
+void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="print__ip_8h.html#ae04c8fdf6879da8114328068e1eff55f">print_ip</a> (std::ostream &amp;strm, const T &amp;val)</td></tr>
+<tr class="memdesc:ae04c8fdf6879da8114328068e1eff55f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Функция вывода в поток целых чисел  <a href="#ae04c8fdf6879da8114328068e1eff55f">More...</a><br/></td></tr>
 <tr class="separator:ae04c8fdf6879da8114328068e1eff55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a74642fcf65593187c68569cb5c462c20"><td class="memTemplParams" colspan="2"><a class="anchor" id="a74642fcf65593187c68569cb5c462c20"></a>
-template&lt;class... Args&gt; </td></tr>
-<tr class="memitem:a74642fcf65593187c68569cb5c462c20"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>print_ip</b> (std::ostream &amp;strm, const std::tuple&lt; Args...&gt; &amp;val) -&gt; typename std::enable_if&lt; <a class="el" href="structimpl_1_1check__tuple.html">impl::check_tuple</a>&lt; std::remove_reference_t&lt; decltype(val)&gt; &gt;::value, void &gt;::type</td></tr>
+<tr class="memitem:a74642fcf65593187c68569cb5c462c20"><td class="memTemplParams" colspan="2">template&lt;class... Args&gt; </td></tr>
+<tr class="memitem:a74642fcf65593187c68569cb5c462c20"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="print__ip_8h.html#a74642fcf65593187c68569cb5c462c20">print_ip</a> (std::ostream &amp;strm, const std::tuple&lt; Args...&gt; &amp;val) -&gt; typename std::enable_if&lt; <a class="el" href="structimpl_1_1check__tuple.html">impl::check_tuple</a>&lt; std::remove_reference_t&lt; decltype(val)&gt; &gt;::value, void &gt;::type</td></tr>
+<tr class="memdesc:a74642fcf65593187c68569cb5c462c20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Функция вывода в поток полей кортежей.  <a href="#a74642fcf65593187c68569cb5c462c20">More...</a><br/></td></tr>
 <tr class="separator:a74642fcf65593187c68569cb5c462c20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fbde40ea066385779dfac87e6f56df7"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0fbde40ea066385779dfac87e6f56df7"></a>
-template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a0fbde40ea066385779dfac87e6f56df7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a0fbde40ea066385779dfac87e6f56df7"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if<br class="typebreak"/>
 &lt; <a class="el" href="structimpl_1_1is__container.html">impl::is_container</a>&lt; T &gt;<br class="typebreak"/>
-::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>print_ip</b> (std::ostream &amp;strm, const T &amp;val)</td></tr>
+::value, void &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="print__ip_8h.html#a0fbde40ea066385779dfac87e6f56df7">print_ip</a> (std::ostream &amp;strm, const T &amp;val)</td></tr>
+<tr class="memdesc:a0fbde40ea066385779dfac87e6f56df7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Функция вывода в поток контейнера (класса с константным итератором).  <a href="#a0fbde40ea066385779dfac87e6f56df7">More...</a><br/></td></tr>
 <tr class="separator:a0fbde40ea066385779dfac87e6f56df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ae04c8fdf6879da8114328068e1eff55f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;std::is_integral&lt;T&gt;::value, void&gt;::type print_ip </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>strm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Функция вывода в поток целых чисел </p>
+
+</div>
+</div>
+<a class="anchor" id="a74642fcf65593187c68569cb5c462c20"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto print_ip </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>strm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::tuple&lt; Args...&gt; &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; typename std::enable_if&lt;<a class="el" href="structimpl_1_1check__tuple.html">impl::check_tuple</a>&lt;std::remove_reference_t&lt;decltype(val)&gt; &gt;::value, void&gt;::type
+</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Функция вывода в поток полей кортежей. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Поля кортежа должны быть одного типа </dd>
+<dd>
+В отличии от версии для целых чисел, нет специализаии для char и signed типов </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a0fbde40ea066385779dfac87e6f56df7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;<a class="el" href="structimpl_1_1is__container.html">impl::is_container</a>&lt;T&gt;::value, void&gt;::type print_ip </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>strm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>val</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Функция вывода в поток контейнера (класса с константным итератором). </p>
+<dl class="section warning"><dt>Warning</dt><dd>В отличии от версии для целых чисел, нет специализаии для char и signed типов </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 16 2018 20:00:44 for ip_printer by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 16 2018 22:00:01 for ip_printer by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

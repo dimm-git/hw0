@@ -7,16 +7,26 @@
 
 var indexSectionsWithContent =
 {
-  0: "chip",
+  0: "acdhimpv",
   1: "chip",
-  2: "p"
+  2: "i",
+  3: "cip",
+  4: "cmp",
+  5: "iv",
+  6: "v",
+  7: "acdhp"
 };
 
 var indexSectionNames =
 {
   0: "all",
   1: "classes",
-  2: "files"
+  2: "namespaces",
+  3: "files",
+  4: "functions",
+  5: "variables",
+  6: "typedefs",
+  7: "defines"
 };
 
 function convertToId(search)
