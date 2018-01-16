@@ -17,7 +17,7 @@ git config user.email "ci@localhost"
 
 echo "" > .nojekyll
 
-[ -d ../../html ] && mv ../../html/* .
+[ -d ../../html ] && cp -rT ../../html .
 
 if [ "index.html" ]; then
 
