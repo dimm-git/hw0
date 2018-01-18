@@ -1,0 +1,4 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$structimpl_1_1has__begin_3_01T_00_01void__t_3_01decltype_07_6T_1_1cbegin_08_4_01_4.html" title="impl::has_begin\&lt; T,\l void_t\&lt; decltype(&amp;T\l::cbegin)\&gt; \&gt;" alt="" coords="209,5,351,61"/>
+<area shape="rect" id="node3" href="$structimpl_1_1has__end_3_01T_00_01void__t_3_01decltype_07_6T_1_1cend_08_4_01_4.html" title="impl::has_end\&lt; T, void\l_t\&lt; decltype(&amp;T::cend)\&gt; \&gt;" alt="" coords="193,85,367,126"/>
+</map>
