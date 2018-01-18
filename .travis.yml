@@ -30,7 +30,8 @@ script:
 - CXX=g++-6 cmake .
 - cmake --build .
 - cmake --build . --target package
-- rm -rf CMakeFiles
+- find CMakeFiles -name '*.cpp' -delete
+- find CMakeFiles -name '*.h' -delete
 - cmake --build . --target doc
 
 deploy:
