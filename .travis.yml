@@ -2,11 +2,6 @@ branches:
   on:
     - master
 
-env:
-  global:
-    - GH_REPO_NAME: hw0
-    - GH_REPO_REF: github.com/dimm-git/hw0.git
-
 matrix:
   include:
     # works on Precise and Trusty
@@ -35,6 +30,7 @@ script:
 - CXX=g++-6 cmake .
 - cmake --build .
 - cmake --build . --target package
+- rm -rf CMakeFiles
 - cmake --build . --target doc
 
 deploy:
