@@ -38,16 +38,12 @@ script:
 - cmake --build . --target doc
 
 deploy:
-  provider: script
-  skip_cleanup: true
-  script: curl -T print_ip-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb -udimm-git:$BINTRAY_API_KEY "https://api.bintray.com/content/dimm-git/otus-cpp/print_ip/$TRAVIS_BUILD_NUMBER/print_ip-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
-
-deploy:
-  provider: pages
-  local-dir: html
-  skip-cleanup: true
-  github-token: $GH_REPO_TOKEN
-  keep-history: true
-  verbose: true
-  on:
-    branch: master
+  - provider: script
+    skip_cleanup: true
+    script: curl -T print_ip-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb -udimm-git:$BINTRAY_API_KEY "https://api.bintray.com/content/dimm-git/otus-cpp/print_ip/$TRAVIS_BUILD_NUMBER/print_ip-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  - provider: pages
+    local-dir: html
+    skip-cleanup: true
+    github-token: $GH_REPO_TOKEN
+    keep-history: true
+    verbose: true
