@@ -47,6 +47,7 @@ deploy:
   local-dir: html
   skip-cleanup: true
   github-token: $GH_REPO_TOKEN
-  keep-history: false
+  keep-history: true
+  verbose: true
   on:
     branch: master
