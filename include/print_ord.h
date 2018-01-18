@@ -10,8 +10,9 @@ namespace impl
 template <typename T, std::size_t SZ = sizeof(T), bool S = std::is_signed<T>::value>
 struct print_ord
 {
-    static void print(std::ostream&, const T&)
+    static void print(std::ostream& s, const T& v)
     {
+        s << v;
     }
 };
 
@@ -21,10 +22,9 @@ struct print_ord<T, SZ, false>
     static void print(std::ostream& strm, const T& t)
     {
         auto* ptr = reinterpret_cast<const uint8_t*>(&t);
-        strm << +(*ptr);
-        ptr++;
-        for (std::size_t i = 1; i < sizeof(t); i++, ++ptr)
-            strm << "." << +(*ptr);
+        strm << +ptr[sizeof(t) - 1];
+        for (std::size_t i = sizeof(t) - 1; i > 0; i--)
+            strm << "." << +ptr[i - 1];
     }
 };
 
@@ -33,7 +33,7 @@ struct print_ord<T, SZ, true>
 {
     static void print(std::ostream& strm, const T& val)
     {
-        std::make_unsigned_t<T> x = std::abs(val);
+        auto x = static_cast<std::make_unsigned_t<T> >(val);
         print_ord<decltype(x), sizeof(x), false>::print(strm, x);
     }
 };

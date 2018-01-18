@@ -11,3 +11,4 @@ INCLUDE_GRAPH         = YES
 CLASS_DIAGRAMS        = YES
 SHOW_FILES            = YES
 EXTRACT_ALL           = YES
+HAVE_DOT              = YES

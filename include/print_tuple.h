@@ -43,8 +43,8 @@ struct print_tuple
 {
     static void print(std::ostream& s, const T& t)
     {
-        s << std::get<N - 1>(t) << ".";
-        return print_tuple<T, N - 1>::print(s, t);
+        print_tuple<T, N - 1>::print(s, t);
+        s << "." << std::get<N - 1>(t);
     }
 };
 
