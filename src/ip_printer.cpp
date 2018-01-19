@@ -19,7 +19,7 @@ int main(int, char**)
         std::vector<int> v = { 1, 2, 3, 4, 5 };
         print_ip(std::cout, v) << std::endl;
 
-        std::list<int> l = { 6, 7, 8, 9, 10 };
+        std::list<std::string> l = { "6", "7", "8", "9", "10", "11" };
         print_ip(std::cout, l) << std::endl;
         print_ip(std::cout, std::make_tuple(11, 12, 13, 14, 15, 16)) << std::endl;
     }
