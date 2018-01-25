@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(print_ip)
-
-# find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+project(vge)
 
 set(OTUS_VERSION_MAJOR "1")
 set(OTUS_VERSION_MINOR "0")
@@ -14,21 +12,13 @@ else()
     set(OTUS_VERSION_PATCH "0")
 endif()
 
-add_executable(print_ip src/ip_printer.cpp include/print_ip.h include/print_tuple.h include/print_ord.h include/print_container.h)
-target_include_directories(print_ip PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_compile_options(print_ip PUBLIC -Wall -Wextra -Wpedantic)
+add_executable(vge src/editor.cpp include/point.h include/shape.h)
+target_include_directories(vge PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_compile_options(vge PUBLIC -Wall -Wextra -Wpedantic)
 
-set_target_properties(print_ip PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+set_target_properties(vge PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
-install(TARGETS print_ip DESTINATION bin)
-
-set(CPACK_GENERATOR "DEB")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")
-set(CPACK_PACKAGE_VERSION_MAJOR ${OTUS_VERSION_MAJOR})
-set(CPACK_PACKAGE_VERSION_MINOR ${OTUS_VERSION_MINOR})
-set(CPACK_PACKAGE_VERSION_PATCH ${OTUS_VERSION_PATCH})
-execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
-string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
+install(TARGETS vge DESTINATION bin)
 
 if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "Release")
 
@@ -45,5 +35,3 @@ add_custom_target(doc
 )
 
 endif()
-
-include(CPack)
