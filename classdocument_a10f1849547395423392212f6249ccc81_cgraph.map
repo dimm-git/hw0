@@ -1,0 +1,6 @@
+<map id="document::import_from" name="document::import_from">
+<area shape="rect" id="node2" href="$structIShapeStreamIn.html#a50b95c6423ebc6252ea5d74517aec46f" title="IShapeStreamIn::next" alt="" coords="219,5,368,32"/>
+<area shape="rect" id="node3" href="$structshape__creator.html#af5fcecbab97817e2829b87c122f06433" title="shape_creator::make\l_shape" alt="" coords="221,57,365,98"/>
+<area shape="rect" id="node4" href="$structIShapeStreamIn.html#a91083e967be9be407e84c5c304528835" title="IShapeStreamIn::current\l_shape" alt="" coords="211,122,375,163"/>
+<area shape="rect" id="node5" href="$structIShape.html#afea071e8ae612bbd53e692358ca8e510" title="IShape::import_from" alt="" coords="223,188,363,215"/>
+</map>
