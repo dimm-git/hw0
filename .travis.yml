@@ -32,10 +32,13 @@ script:
 - find CMakeFiles -name '*.cpp' -delete
 - find CMakeFiles -name '*.h' -delete
 - cmake --build . --target doc
+- mkdir diagr
+- find html -name '*_graph.png' -exec cp {} diagr \;
+- find html -name '*_incl.png' -exec cp {} diagr \;
 
 deploy:
   - provider: pages
-    local-dir: html
+    local-dir: diagr
     skip-cleanup: true
     github-token: $GH_REPO_TOKEN
     keep-history: true
