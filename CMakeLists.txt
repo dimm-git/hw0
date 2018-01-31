@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(vge)
+project(matrix)
+
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 set(OTUS_VERSION_MAJOR "1")
 set(OTUS_VERSION_MINOR "0")
@@ -12,26 +14,29 @@ else()
     set(OTUS_VERSION_PATCH "0")
 endif()
 
-add_executable(vge src/editor.cpp include/point.h include/shape.h)
-target_include_directories(vge PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_compile_options(vge PUBLIC -Wall -Wextra -Wpedantic)
+add_executable(matrix src/matrix.cpp include/matrix.h include/composite.h include/index_proxy.h include/matrix_iterator.h)
+add_executable(matrix_tests tests/src/tests.cpp)
+target_include_directories(matrix PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_compile_options(matrix PUBLIC -Wall -Wextra -Wpedantic)
 
-set_target_properties(vge PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+target_include_directories(matrix_tests PUBLIC ${PROJECT_SOURCE_DIR}/include ${Boost_INCLUDE_DIR})
+target_compile_options(matrix_tests PUBLIC -Wall -Wextra -g -Wpedantic)
+target_compile_definitions(matrix_tests PUBLIC BOOST_TEST_DYN_LINK)
+target_link_libraries(matrix_tests pthread ${Boost_LIBRARIES})
 
-install(TARGETS vge DESTINATION bin)
+set_target_properties(matrix matrix_tests PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
-if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "Release")
+install(TARGETS matrix DESTINATION bin)
 
-find_package(Doxygen)
-set(doxyfile_in ${PROJECT_SOURCE_DIR}/doc/doxyfile.in)
-set(doxyfile ${PROJECT_BINARY_DIR}/doxyfile)
-configure_file(${doxyfile_in} ${doxyfile} @ONLY)
+set(CPACK_GENERATOR "DEB")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")
+set(CPACK_PACKAGE_VERSION_MAJOR ${OTUS_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${OTUS_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${OTUS_VERSION_PATCH})
+execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
+string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 
-add_custom_target(doc
-  COMMAND ${DOXYGEN_EXECUTABLE} ${doxyfile}
-  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  COMMENT "Generating API documentation with Doxygen"
-  VERBATIM
-)
+enable_testing()
+add_test(NAME matrix_test COMMAND "${PROJECT_BINARY_DIR}/matrix_tests")
 
-endif()
+include(CPack)
