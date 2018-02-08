@@ -1,6 +1,6 @@
 OTUS C++ course  
 
-The "IP printer tool"  
+Timus tasks set (STL-1)  
 
 
 
