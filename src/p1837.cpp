@@ -20,9 +20,8 @@ person* ensure(std::map<std::string, person*>& i, std::vector<person>& p, const 
     auto& n = i[name];
     if (n == nullptr)
     {
-        p.push_back(person(id++));
-        n = &p[p.size() - 1];
-        std::cout << name << " " << n->id << std::endl;
+        p.emplace_back(person(id++));
+        n = &p.back();
     }
     return n;
 }
@@ -40,44 +39,52 @@ void mix(person* n0, person* n1, person* n2)
     add(n2, n0, n1);
 }
 
-void mark(person* p, std::map<std::string, person*>& i, std::vector<person>& a)
+void mark(person* p, std::vector<person>& a)
 {
-    std::cout << "mark for " << p->id << std::endl;
-    for (std::size_t i = 0; i < p->teammates.size(); i++)
+    std::vector<person*> cur;
+    std::vector<person*> next;
+    cur.reserve(300);
+    next.reserve(300);
+    int rank = 1;
+    cur.push_back(p);
+    do
     {
-        person& c = a[p->teammates[i]];
-        if (c.rank == -1)
-            c.rank = p->rank + 1;
-        std::cout << "  rank for " << p->teammates[i] << " " << c.id << " " << c.rank << std::endl;
-    }
-    for (std::size_t j = 0; j< p->teammates.size(); j++)
-    {
-        int id = p->teammates[j];
-        person& c = a[id];
-        std::cout << c.id << " " << c.rank << " " << c.inproc << std::endl;
-        if (c.inproc == false)
+        for (std::size_t i = 0; i < cur.size(); i++)
         {
-            c.inproc = true;
-            mark(&c, i, a);
+            p = cur[i];
+            for (std::size_t j = 0; j < p->teammates.size(); j++)
+            {
+                person* tm = &a[p->teammates[j]];
+                if (tm->inproc == false)
+                {
+                    tm->inproc = true;
+                    tm->rank = rank;
+                    next.push_back(tm);
+                }
+            }
         }
+        std::swap(cur, next);
+        rank++;
+        next.clear();
     }
+    while (cur.size() > 0);
 }
 
 void solve(std::map<std::string, person*>& i, std::vector<person>& p)
 {
-    std::vector<int> to(300);
     auto it = i.find("Isenbaev");
     if (it == i.end())
         return;
     person* is = it->second;
     is->rank = 0;
     is->inproc = true;
-    mark(is, i, p);
+    mark(is, p);
 }
  
 int main()
 {
-    std::vector<person> persons(300);
+    std::vector<person> persons;
+    persons.reserve(300);
     std::map<std::string, person*> index;
     int id = 0;
 
