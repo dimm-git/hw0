@@ -1,19 +1,33 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(timus)
+project(bulk)
 
-add_executable(p1196 src/p1196.cpp)
-target_compile_options(p1196 PUBLIC -Wall -Wextra -Wpedantic)
-set_target_properties(p1196 PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
-add_executable(p1496 src/p1496.cpp)
-target_compile_options(p1496 PUBLIC -Wall -Wextra -Wpedantic)
-set_target_properties(p1496 PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+set(OTUS_VERSION_MAJOR "1")
+set(OTUS_VERSION_MINOR "0")
 
-add_executable(p1545 src/p1545.cpp)
-target_compile_options(p1545 PUBLIC -Wall -Wextra -Wpedantic)
-set_target_properties(p1545 PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+if(DEFINED ENV{TRAVIS_BUILD_NUMBER})
+    message(STATUS "TRAVIS_BUILD_NUMBER: " "$ENV{TRAVIS_BUILD_NUMBER}")
+    set(OTUS_VERSION_PATCH "$ENV{TRAVIS_BUILD_NUMBER}")
+else()
+    set(OTUS_VERSION_PATCH "0")
+endif()
 
-add_executable(p1837 src/p1837.cpp)
-target_compile_options(p1837 PUBLIC -Wall -Wextra -Wpedantic)
-set_target_properties(p1837 PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+add_executable(bulk src/bulk.cpp)
+
+target_include_directories(bulk PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_compile_options(bulk PUBLIC -Wall -Wextra -Wpedantic)
+set_target_properties(bulk PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+
+install(TARGETS bulk DESTINATION bin)
+
+set(CPACK_GENERATOR "DEB")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")
+set(CPACK_PACKAGE_VERSION_MAJOR ${OTUS_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${OTUS_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${OTUS_VERSION_PATCH})
+execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
+string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
+
+include(CPack)

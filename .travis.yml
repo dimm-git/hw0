@@ -1,0 +1,31 @@
+matrix:
+  include:
+    # works on Precise and Trusty
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+
+before_install:
+    - eval "${MATRIX_EVAL}"
+
+language: cpp
+
+before_script:
+  - sudo apt-get install libboost-test-dev -y
+  - echo "deb http://archive.ubuntu.com/ubuntu xenial main universe" | sudo tee -a /etc/apt/sources.list
+  - sudo apt-get update -qq
+script:
+- cmake .
+- cmake --build .
+- cmake --build . --target test
+- cmake --build . --target package
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: curl -T bulk-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb -udimm-git:$BINTRAY_API_KEY "https://api.bintray.com/content/dimm-git/otus-cpp/bulk/$TRAVIS_BUILD_NUMBER/bulk-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
