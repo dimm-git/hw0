@@ -13,6 +13,8 @@ else()
 endif()
 
 add_executable(bulk src/bulk.cpp
+    include/app_config.h src/app_config.cpp
+    include/app_mode.h src/app_mode.cpp
     include/block_builder.h src/block_builder.cpp
     include/block_listener.h src/block_listener.cpp
     include/build_state.h src/build_state.cpp
@@ -20,6 +22,7 @@ add_executable(bulk src/bulk.cpp
     include/command_block.h src/command_block.cpp
     include/command_printer.h src/command_printer.cpp
     include/input_handler.h src/input_handler.cpp
+    include/logname_generator.h src/logname_generator.cpp
 )
 
 target_include_directories(bulk PUBLIC ${PROJECT_SOURCE_DIR}/include)

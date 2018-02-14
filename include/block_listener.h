@@ -1,8 +1,8 @@
 #pragma once
 
-#include <ctime>
-
 #include "command_block.h"
+
+class logname_generator;
 
 class block_listener
 {
@@ -20,7 +20,7 @@ class block_printer;
 class block_logger : public block_listener
 {
     private:
-        block_printer* m_p;
+        block_printer* m_p = nullptr;
 
     public:
         block_logger(block_printer* prn);
@@ -34,11 +34,11 @@ class block_logger : public block_listener
 class block_lazy_logger : public block_listener
 {
     private:
-        block_printer* m_p;
-        struct timeval m_tv = timeval { 0, 0 };
+        block_printer* m_p = nullptr;
+        logname_generator* m_gen = nullptr;
 
     public:
-        block_lazy_logger(block_printer* prn);
+        block_lazy_logger(block_printer* prn, logname_generator* gen);
         void block_built(command_block* b) override;
         void block_break(command_block* b) override;
 
