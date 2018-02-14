@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.2)
 
 project(bulk)
 
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-
 set(OTUS_VERSION_MAJOR "1")
 set(OTUS_VERSION_MINOR "0")
 
@@ -14,7 +12,7 @@ else()
     set(OTUS_VERSION_PATCH "0")
 endif()
 
-add_executable(bulk src/bulk.cpp)
+add_executable(bulk src/bulk.cpp include/block_builder.h include/block_listener.h include/build_strategy.h include/command.h src/command.cpp include/command_block.h src/command_block.cpp)
 
 target_include_directories(bulk PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_compile_options(bulk PUBLIC -Wall -Wextra -Wpedantic)
