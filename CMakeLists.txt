@@ -12,7 +12,15 @@ else()
     set(OTUS_VERSION_PATCH "0")
 endif()
 
-add_executable(bulk src/bulk.cpp include/block_builder.h include/block_listener.h include/build_strategy.h include/command.h src/command.cpp include/command_block.h src/command_block.cpp)
+add_executable(bulk src/bulk.cpp
+    include/block_builder.h src/block_builder.cpp
+    include/block_listener.h src/block_listener.cpp
+    include/build_state.h src/build_state.cpp
+    include/command.h src/command.cpp
+    include/command_block.h src/command_block.cpp
+    include/command_printer.h src/command_printer.cpp
+    include/input_handler.h src/input_handler.cpp
+)
 
 target_include_directories(bulk PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_compile_options(bulk PUBLIC -Wall -Wextra -Wpedantic)

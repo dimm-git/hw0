@@ -1,19 +1,35 @@
 #pragma once
 
+#include "block_listener.h"
+#include "build_state.h"
+#include "command.h"
 #include "command_block.h"
 
 class block_builder
 {
     private:
-        command_block* m_block = nullptr;
-
-        const int m_block_size = 0;
-        int m_current_block_size = 0;
-
-        int m_nest_level = 0;
+        build_state* m_bs = nullptr;
+        command_block* m_cb = nullptr;
+        std::list<block_listener*> m_listeners;
 
     public:
-        block_builder(int count, command_block* block) : m_block(block), m_block_size(count)
-        {
-        }
+        block_builder(build_state* bs, command_block* bl);
+        ~block_builder() noexcept;
+
+        bool command_push();
+        bool command_add(command* cmd);
+        bool command_pop();
+        bool flush();
+
+        void add_listener(block_listener* bl);
+
+
+    private:
+        void reset();
+        void do_finish();
+        void notify_finish();
+        void do_break();
+        void notify_break();
+        void notify_cmd_add(command* cmd);
+        void notify_cmd_rej(command* cmd);
 };
