@@ -77,7 +77,7 @@ void block_builder::do_finish()
 
 void block_builder::notify_finish()
 {
-    for (l : m_listeners)
+    for (auto l : m_listeners)
         l->block_built(m_cb);
 }
 
@@ -89,19 +89,19 @@ void block_builder::do_break()
 
 void block_builder::notify_break()
 {
-    for (l : m_listeners)
+    for (auto l : m_listeners)
         l->block_break(m_cb);
 }
 
 void block_builder::notify_cmd_add(command* cmd)
 {
-    for (l : m_listeners)
+    for (auto l : m_listeners)
         l->command_accepted(cmd);
 }
 
 void block_builder::notify_cmd_rej(command* cmd)
 {
-    for (l : m_listeners)
+    for (auto l : m_listeners)
         l->command_rejected(cmd);
 }
 
