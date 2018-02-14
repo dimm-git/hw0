@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstdlib>
+#include <functional>
 #include <memory>
 
 #include "app_mode.h"
@@ -10,6 +10,27 @@
 #include "command_printer.h"
 #include "input_handler.h"
 
+template <typename T, typename V>
+class lazy_init
+{
+    public:
+        lazy_init(T* parent, std::function<V*(T*)> func) : m_p(parent), m_f(func)
+        {
+        }
+
+        V* get()
+        {
+            if (val.get() == nullptr)
+                val.reset(m_f(m_p));
+            return val.get();
+        }
+
+    private:
+        T* m_p = nullptr;
+        std::function<V*(T*)> m_f;
+        std::unique_ptr<V> val;
+};
+
 class app_config
 {
     private:
@@ -18,17 +39,16 @@ class app_config
 
         std::unique_ptr<build_state> bstate_plain;
         std::unique_ptr<build_state> bstate_nested;
-        std::unique_ptr<build_state> bstate;
-        std::unique_ptr<command_block> cmdblock;
-        std::unique_ptr<command_factory> factory;
-        std::unique_ptr<block_builder> bbuilder;
-        std::unique_ptr<input_handler> inh;
 
-        std::unique_ptr<command_printer> cmdp;
-        std::unique_ptr<block_printer> bp;
-
-        std::unique_ptr<block_listener> log0;
-        std::unique_ptr<block_listener> log1;
+        command_block* make_command_block();
+        command_factory* make_command_factory();
+        input_handler* make_input_handler();
+        build_state* make_build_state();
+        block_builder* make_block_builder();
+        command_printer* make_command_printer();
+        block_printer* make_block_printer();
+        block_listener* make_con_logger();
+        block_listener* make_file_logger();
 
     public:
         static void init(int argc, const char* argv[]);
@@ -39,76 +59,15 @@ class app_config
             return *mode.get();
         }
 
-        build_state* get_build_state()
-        {
-            if (bstate.get() == nullptr)
-            {
-                bstate_plain.reset(new build_state_plain(instance().get_mode().get_block_size()));
-                bstate_nested.reset(new build_state_nested());
-                bstate.reset(new build_state_mixed(bstate_plain.get(), bstate_nested.get()));
-            }
-            return bstate.get();
-        }
+        app_config();
 
-        command_factory* get_command_factory()
-        {
-            if (factory.get() == nullptr)
-                factory.reset(new input_command_factory);
-            return factory.get();
-        }
-
-        command_block* get_command_block()
-        {
-            if (cmdblock.get() == nullptr)
-                cmdblock.reset(new command_block);
-            return cmdblock.get();
-        }
-
-        block_builder* get_block_builder()
-        {
-            if (bbuilder.get() == nullptr)
-            {
-                bbuilder.reset(new block_builder(get_build_state(), get_command_block()));
-                bbuilder->add_listener(get_con_logger());
-                bbuilder->add_listener(get_file_logger());
-            }
-
-            return bbuilder.get();
-        }
-
-        input_handler* get_input_handler()
-        {
-            if (inh.get() == nullptr)
-                inh.reset(new command_block_handler(get_command_factory(), get_block_builder()));
-            return inh.get();
-        }
-
-        command_printer* get_command_printer()
-        {
-            if (cmdp.get() == nullptr)
-                cmdp.reset(new command_printer_name);
-
-            return cmdp.get();
-        }
-
-        block_printer* get_block_printer()
-        {
-            if (bp.get() == nullptr)
-                bp.reset(new block_printer_bulk(*get_command_printer()));
-            return bp.get();
-        }
-
-        block_listener* get_con_logger()
-        {
-            if (log0.get() == nullptr)
-                log0.reset(new block_logger(get_block_printer()));
-            return log0.get();
-        }
-
-        block_listener* get_file_logger()
-        {
-            if (log1.get() == nullptr)
-                log1.reset(new block_lazy_logger(get_block_printer(), &instance().get_mode().get_generator()));
-            return log1.get();
-        }
+        lazy_init<app_config, build_state> build_st;
+        lazy_init<app_config, command_factory> cmd_factory;
+        lazy_init<app_config, command_block> cmd_block;
+        lazy_init<app_config, input_handler> inp_handler;
+        lazy_init<app_config, block_builder> bbuilder;
+        lazy_init<app_config, command_printer> cmd_printer;
+        lazy_init<app_config, block_printer> blk_printer;
+        lazy_init<app_config, block_listener> con_logger;
+        lazy_init<app_config, block_listener> file_logger;
 };

@@ -21,3 +21,67 @@ app_config& app_config::instance()
 
     return *inst.get();
 }
+
+command_block* app_config::make_command_block()
+{
+    return new command_block;
+}
+
+command_factory* app_config::make_command_factory()
+{
+    return new input_command_factory;
+}
+
+input_handler* app_config::make_input_handler()
+{
+    return new command_block_handler(cmd_factory.get(), bbuilder.get());
+}
+
+build_state* app_config::make_build_state()
+{
+    bstate_plain.reset(new build_state_plain(instance().get_mode().get_block_size()));
+    bstate_nested.reset(new build_state_nested());
+    return new build_state_mixed(bstate_plain.get(), bstate_nested.get());
+}
+
+ block_builder* app_config::make_block_builder()
+ {
+    std::unique_ptr<block_builder> bbuilder(new block_builder(build_st.get(), cmd_block.get()));
+    bbuilder->add_listener(con_logger.get());
+    bbuilder->add_listener(file_logger.get());
+
+    return bbuilder.release();
+}
+
+command_printer* app_config::make_command_printer()
+{
+    return new command_printer_name;
+}
+
+block_printer* app_config::make_block_printer()
+{
+    return new block_printer_bulk(*cmd_printer.get());
+}
+
+block_listener* app_config::make_con_logger()
+{
+    return new block_logger(blk_printer.get());
+}
+
+block_listener* app_config::make_file_logger()
+{
+    return new block_lazy_logger(blk_printer.get(), &instance().get_mode().get_generator());
+}
+
+app_config::app_config() :
+    build_st(this, &app_config::make_build_state),
+    cmd_factory(this, &app_config::make_command_factory),
+    cmd_block(this, &app_config::make_command_block),
+    inp_handler(this, &app_config::make_input_handler),
+    bbuilder(this, &app_config::make_block_builder),
+    cmd_printer(this, &app_config::make_command_printer),
+    blk_printer(this, &app_config::make_block_printer),
+    con_logger(this, &app_config::make_con_logger),
+    file_logger(this, &app_config::make_file_logger)
+{
+}

@@ -1,7 +1,4 @@
-#include <fstream>
 #include <iostream>
-#include <memory>
-#include <sstream>
 
 #include "app_config.h"
 #include "input_handler.h"
@@ -34,5 +31,5 @@ void go(input_handler* h, std::istream& s)
 void run()
 {
     app_config& i = app_config::instance();
-    go(i.get_input_handler(), i.get_mode().get_istream());
+    go(i.inp_handler.get(), i.get_mode().get_istream());
 }
