@@ -39,4 +39,12 @@ set(CPACK_PACKAGE_VERSION_PATCH ${OTUS_VERSION_PATCH})
 execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
 string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 
+enable_testing()
+add_test(NAME input0 COMMAND "${PROJECT_SOURCE_DIR}/tests/maketest.sh" "${PROJECT_BINARY_DIR}/bulk" 0)
+add_test(NAME input1 COMMAND "${PROJECT_SOURCE_DIR}/tests/maketest.sh" "${PROJECT_BINARY_DIR}/bulk" 1)
+add_test(NAME input2 COMMAND "${PROJECT_SOURCE_DIR}/tests/maketest.sh" "${PROJECT_BINARY_DIR}/bulk" 2)
+add_test(NAME input3 COMMAND "${PROJECT_SOURCE_DIR}/tests/maketest.sh" "${PROJECT_BINARY_DIR}/bulk" 3)
+add_test(NAME input4 COMMAND "${PROJECT_SOURCE_DIR}/tests/maketest.sh" "${PROJECT_BINARY_DIR}/bulk" 4)
+add_test(NAME input5 COMMAND "${PROJECT_SOURCE_DIR}/tests/maketest.sh" "${PROJECT_BINARY_DIR}/bulk" 5)
+
 include(CPack)
