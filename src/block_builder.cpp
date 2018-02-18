@@ -18,7 +18,10 @@ bool block_builder::command_push()
     block_state bs = m_bs->push();
 
     if (bs == bsFinish)
-        do_finish();
+    {
+        notify_finish();
+        m_cb->clear();
+    }
 
     if (bs == bsAccept || bs == bsFinish)
         return true;

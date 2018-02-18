@@ -83,12 +83,10 @@ block_state build_state_mixed::push()
     if (m_cur == m_plain)
     {
         m_plain->reset();
+        block_state nbs = m_rec->push();
         if (bs != bsFinish)
-            bs = m_rec->push();
-        else
-            m_rec->push();
+            bs = nbs;
         m_cur = m_rec;
-        return bs;
     }
     return bs;
 }
