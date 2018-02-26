@@ -27,7 +27,8 @@ class block_printer;
 class block_logger : public block_listener
 {
     private:
-        block_printer* m_p = nullptr;
+        std::thread m_thread;
+        evil_queue m_queue;
 
     public:
         block_logger(block_printer* prn);

@@ -7,7 +7,25 @@
 
 #include "block_listener.h"
 
-block_logger::block_logger(block_printer* prn) : m_p(prn)
+namespace
+{
+
+void console_printer(block_printer* prn, evil_queue* q)
+{
+    do
+    {
+        auto data = q->pop();
+        auto cb = data.first;
+        if (!cb)
+            break;
+        prn->print(std::cout, *cb);
+    }
+    while (true);
+}
+
+}
+
+block_logger::block_logger(block_printer* prn) : m_thread(console_printer, prn, &m_queue)
 {
 }
 
@@ -18,8 +36,7 @@ block_logger::~block_logger()
 
 void block_logger::block_built(block_shared b)
 {
-    if (b)
-        m_p->print(std::cout, *b);
+    m_queue.push(b, "");
 }
 
 void block_logger::block_break(block_shared)
@@ -36,6 +53,11 @@ void block_logger::command_rejected(command*)
 
 void block_logger::done()
 {
+    if (m_thread.joinable())
+    {
+        m_queue.stop();
+        m_thread.join();
+    }
 }
 
 namespace
