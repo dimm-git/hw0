@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.2)
 
 project(bulkmt)
 
+find_package(Threads REQUIRED)
+
 set(OTUS_VERSION_MAJOR "1")
 set(OTUS_VERSION_MINOR "0")
 
@@ -22,12 +24,14 @@ add_executable(bulkmt src/bulk.cpp
     include/command.h src/command.cpp
     include/command_block.h src/command_block.cpp
     include/command_printer.h src/command_printer.cpp
+    include/evil_queue.h src/evil_queue.cpp
     include/input_handler.h src/input_handler.cpp
     include/logname_generator.h src/logname_generator.cpp
 )
 
 target_include_directories(bulkmt PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_compile_options(bulkmt PUBLIC -Wall -Wextra -Wpedantic)
+target_link_libraries(bulkmt Threads::Threads)
 set_target_properties(bulkmt PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
 install(TARGETS bulkmt DESTINATION bin)

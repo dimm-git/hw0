@@ -4,4 +4,4 @@
 
 #include "command_block.h"
 
-typedef std::experimental::weak_ptr<command_block> block_shared;
+typedef std::experimental::shared_ptr<command_block> block_shared;

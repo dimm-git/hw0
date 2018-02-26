@@ -5,6 +5,7 @@
 
 void go(input_handler* h, std::istream& s);
 void run();
+void wait_all();
 
 int main(int argc, const char* argv[])
 {
@@ -32,4 +33,12 @@ void run()
 {
     app_config& i = app_config::instance();
     go(i.inp_handler.get(), i.get_mode().get_istream());
+    wait_all();
+}
+
+void wait_all()
+{
+    app_config& i = app_config::instance();
+    i.con_logger->done();
+    i.file_logger->done();
 }

@@ -65,7 +65,7 @@ block_listener* app_config::make_con_logger()
 
 block_listener* app_config::make_file_logger()
 {
-    return new block_lazy_logger(blk_printer.get(), &instance().get_mode().get_generator());
+    return new block_threaded_logger(2, blk_printer.get(), &instance().get_mode().get_generator());
 }
 
 app_config::app_config() :

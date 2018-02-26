@@ -25,6 +25,16 @@ class lazy_init
             return val.get();
         }
 
+        bool operator()() const
+        {
+            return val.get() == nullptr;
+        }
+
+        V* operator->()
+        {
+            return get();
+        }
+
     private:
         T* m_p = nullptr;
         std::function<V*(T*)> m_f;
