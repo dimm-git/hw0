@@ -19,7 +19,7 @@ class app_mode_prod : public app_mode
 {
     private:
         int m_depth = 0;
-        logname_generator_prod m_gen;
+        logname_generator_ms m_gen;
 
     public:
         std::istream& get_istream() override;
@@ -33,7 +33,7 @@ class app_mode_debug : public app_mode
 {
     private:
         int m_depth = 0;
-        logname_generator_debug m_gen;
+        logname_generator_ms m_gen;
         std::ifstream m_strm;
 
     public:

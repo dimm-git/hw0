@@ -40,7 +40,6 @@ class app_config
         std::unique_ptr<build_state> bstate_plain;
         std::unique_ptr<build_state> bstate_nested;
 
-        command_block* make_command_block();
         command_factory* make_command_factory();
         input_handler* make_input_handler();
         build_state* make_build_state();
@@ -63,7 +62,6 @@ class app_config
 
         lazy_init<app_config, build_state> build_st;
         lazy_init<app_config, command_factory> cmd_factory;
-        lazy_init<app_config, command_block> cmd_block;
         lazy_init<app_config, input_handler> inp_handler;
         lazy_init<app_config, block_builder> bbuilder;
         lazy_init<app_config, command_printer> cmd_printer;

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(bulk)
+project(bulkmt)
 
 set(OTUS_VERSION_MAJOR "1")
 set(OTUS_VERSION_MINOR "0")
@@ -12,11 +12,12 @@ else()
     set(OTUS_VERSION_PATCH "0")
 endif()
 
-add_executable(bulk src/bulk.cpp
+add_executable(bulkmt src/bulk.cpp
     include/app_config.h src/app_config.cpp
     include/app_mode.h src/app_mode.cpp
     include/block_builder.h src/block_builder.cpp
     include/block_listener.h src/block_listener.cpp
+    include/block_shared.h
     include/build_state.h src/build_state.cpp
     include/command.h src/command.cpp
     include/command_block.h src/command_block.cpp
@@ -25,11 +26,11 @@ add_executable(bulk src/bulk.cpp
     include/logname_generator.h src/logname_generator.cpp
 )
 
-target_include_directories(bulk PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_compile_options(bulk PUBLIC -Wall -Wextra -Wpedantic)
-set_target_properties(bulk PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+target_include_directories(bulkmt PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_compile_options(bulkmt PUBLIC -Wall -Wextra -Wpedantic)
+set_target_properties(bulkmt PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
-install(TARGETS bulk DESTINATION bin)
+install(TARGETS bulkmt DESTINATION bin)
 
 set(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")
@@ -40,6 +41,6 @@ execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
 string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 
 enable_testing()
-add_test(NAME input COMMAND "${PROJECT_SOURCE_DIR}/tests/maketests.sh" "${PROJECT_BINARY_DIR}/bulk")
+add_test(NAME input COMMAND "${PROJECT_SOURCE_DIR}/tests/maketests.sh" "${PROJECT_BINARY_DIR}/bulkmt")
 
 include(CPack)

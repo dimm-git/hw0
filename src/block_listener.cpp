@@ -11,12 +11,14 @@ block_logger::block_logger(block_printer* prn) : m_p(prn)
 {
 }
 
-void block_logger::block_built(command_block* b)
+void block_logger::block_built(block_shared b)
 {
-    m_p->print(std::cout, *b);
+    auto cb = b.lock();
+    if (cb)
+        m_p->print(std::cout, *cb);
 }
 
-void block_logger::block_break(command_block*)
+void block_logger::block_break(block_shared)
 {
 }
 
@@ -33,13 +35,17 @@ block_lazy_logger::block_lazy_logger(block_printer* prn, logname_generator* gen)
 }
 
 
-void block_lazy_logger::block_built(command_block* b)
+void block_lazy_logger::block_built(block_shared b)
 {
-    std::ofstream mfs(m_gen->name());
-    m_p->print(mfs, *b);
+    auto cb = b.lock();
+    if (cb)
+    {
+        std::ofstream mfs(m_gen->name());
+        m_p->print(mfs, *cb);
+    }
 }
 
-void block_lazy_logger::block_break(command_block*)
+void block_lazy_logger::block_break(block_shared)
 {
     m_gen->name();
 }

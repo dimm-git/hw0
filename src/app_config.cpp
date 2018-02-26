@@ -22,11 +22,6 @@ app_config& app_config::instance()
     return *inst.get();
 }
 
-command_block* app_config::make_command_block()
-{
-    return new command_block;
-}
-
 command_factory* app_config::make_command_factory()
 {
     return new input_command_factory;
@@ -46,7 +41,7 @@ build_state* app_config::make_build_state()
 
  block_builder* app_config::make_block_builder()
  {
-    std::unique_ptr<block_builder> bbuilder(new block_builder(build_st.get(), cmd_block.get()));
+    std::unique_ptr<block_builder> bbuilder(new block_builder(build_st.get()));
     bbuilder->add_listener(con_logger.get());
     bbuilder->add_listener(file_logger.get());
 
@@ -76,7 +71,6 @@ block_listener* app_config::make_file_logger()
 app_config::app_config() :
     build_st(this, &app_config::make_build_state),
     cmd_factory(this, &app_config::make_command_factory),
-    cmd_block(this, &app_config::make_command_block),
     inp_handler(this, &app_config::make_input_handler),
     bbuilder(this, &app_config::make_block_builder),
     cmd_printer(this, &app_config::make_command_printer),

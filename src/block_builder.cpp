@@ -1,6 +1,6 @@
 #include "block_builder.h"
 
-block_builder::block_builder(build_state* bs, command_block* cb) : m_bs(bs), m_cb(cb)
+block_builder::block_builder(build_state* bs) : m_bs(bs), m_cb(new command_block)
 {
 }
 
@@ -80,8 +80,10 @@ void block_builder::do_finish()
 
 void block_builder::notify_finish()
 {
+    std::experimental::shared_ptr<command_block> cb(m_cb.release());
     for (auto l : m_listeners)
-        l->block_built(m_cb);
+        l->block_built(cb);
+    m_cb.reset(new command_block);
 }
 
 void block_builder::do_break()
@@ -92,8 +94,10 @@ void block_builder::do_break()
 
 void block_builder::notify_break()
 {
+    std::experimental::shared_ptr<command_block> cb(m_cb.release());
     for (auto l : m_listeners)
-        l->block_break(m_cb);
+        l->block_break(cb);
+    m_cb.reset(new command_block);
 }
 
 void block_builder::notify_cmd_add(command* cmd)

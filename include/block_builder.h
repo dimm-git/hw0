@@ -9,11 +9,11 @@ class block_builder
 {
     private:
         build_state* m_bs = nullptr;
-        command_block* m_cb = nullptr;
+        std::unique_ptr<command_block> m_cb;
         std::list<block_listener*> m_listeners;
 
     public:
-        block_builder(build_state* bs, command_block* bl);
+        block_builder(build_state* bs);
         ~block_builder() noexcept;
 
         bool command_push();
