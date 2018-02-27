@@ -1,0 +1,15 @@
+
+Application statistics by thread:
+log:
+	blocks: 1
+	commands: 6
+file0:
+	blocks: 1
+	commands: 6
+file1:
+	blocks: 0
+	commands: 0
+main:
+	lines: 10
+	commands: 6
+	blocks: 1

@@ -46,5 +46,6 @@ string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 
 enable_testing()
 add_test(NAME input COMMAND "${PROJECT_SOURCE_DIR}/tests/maketests.sh" "${PROJECT_BINARY_DIR}/bulkmt")
+add_test(NAME stats COMMAND "${PROJECT_SOURCE_DIR}/tests/maketests_stats.sh" "${PROJECT_BINARY_DIR}/bulkmt")
 
 include(CPack)

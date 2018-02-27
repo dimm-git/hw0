@@ -17,7 +17,7 @@ class command_printer
 class block_printer
 {
     public:
-        virtual void print(std::ostream& s, const command_block& block) = 0;
+        virtual std::size_t print(std::ostream& s, const command_block& block) = 0;
 };
 
 class command_printer_name : public command_printer
@@ -33,5 +33,5 @@ class block_printer_bulk : public block_printer
 
     public:
         block_printer_bulk(command_printer& p);
-        void print(std::ostream& s, const command_block& block) override;
+        std::size_t print(std::ostream& s, const command_block& block) override;
 };

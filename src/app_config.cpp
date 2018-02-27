@@ -44,6 +44,7 @@ build_state* app_config::make_build_state()
     std::unique_ptr<block_builder> bbuilder(new block_builder(build_st.get()));
     bbuilder->add_listener(con_logger.get());
     bbuilder->add_listener(file_logger.get());
+    bbuilder->add_listener(app_stats.get());
 
     return bbuilder.release();
 }
@@ -68,6 +69,11 @@ block_listener* app_config::make_file_logger()
     return new block_threaded_logger(2, blk_printer.get(), &instance().get_mode().get_generator());
 }
 
+total_stats* app_config::make_app_stats()
+{
+    return new total_stats;
+}
+
 app_config::app_config() :
     build_st(this, &app_config::make_build_state),
     cmd_factory(this, &app_config::make_command_factory),
@@ -76,6 +82,7 @@ app_config::app_config() :
     cmd_printer(this, &app_config::make_command_printer),
     blk_printer(this, &app_config::make_block_printer),
     con_logger(this, &app_config::make_con_logger),
-    file_logger(this, &app_config::make_file_logger)
+    file_logger(this, &app_config::make_file_logger),
+    app_stats(this, &app_config::make_app_stats)
 {
 }

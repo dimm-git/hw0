@@ -58,6 +58,7 @@ class app_config
         block_printer* make_block_printer();
         block_listener* make_con_logger();
         block_listener* make_file_logger();
+        total_stats* make_app_stats();
 
     public:
         static void init(int argc, const char* argv[]);
@@ -78,4 +79,5 @@ class app_config
         lazy_init<app_config, block_printer> blk_printer;
         lazy_init<app_config, block_listener> con_logger;
         lazy_init<app_config, block_listener> file_logger;
+        lazy_init<app_config, total_stats> app_stats;
 };
