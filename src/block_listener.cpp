@@ -27,7 +27,7 @@ void console_printer(block_printer* prn, evil_queue* q, block_stats* stats)
 
 }
 
-block_logger::block_logger(block_printer* prn)
+block_logger::block_logger(block_printer* prn, std::size_t ql) : m_queue(ql)
 {
     m_stats.push_back(block_stats("log"));
     m_thread = std::thread(console_printer, prn, &m_queue, &m_stats[0]);
@@ -90,7 +90,7 @@ void print_func(evil_queue* q, block_printer* prn, block_stats* stats)
 
 }
 
-block_threaded_logger::block_threaded_logger(std::size_t count, block_printer* prn, logname_generator* gen) : m_gen(gen)
+block_threaded_logger::block_threaded_logger(std::size_t count, block_printer* prn, logname_generator* gen, std::size_t ql) : m_gen(gen), m_queue(ql)
 {
     m_stats.reserve(count);
     for (std::size_t i = 0; i < count; i++)

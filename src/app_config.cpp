@@ -61,12 +61,12 @@ block_printer* app_config::make_block_printer()
 
 block_listener* app_config::make_con_logger()
 {
-    return new block_logger(blk_printer.get());
+    return new block_logger(blk_printer.get(), instance().get_mode().get_queue_length());
 }
 
 block_listener* app_config::make_file_logger()
 {
-    return new block_threaded_logger(2, blk_printer.get(), &instance().get_mode().get_generator());
+    return new block_threaded_logger(2, blk_printer.get(), &instance().get_mode().get_generator(), instance().get_mode().get_queue_length());
 }
 
 total_stats* app_config::make_app_stats()

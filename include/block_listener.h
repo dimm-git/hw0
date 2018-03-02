@@ -35,7 +35,7 @@ class block_logger : public block_listener
         std::vector<block_stats> m_stats;
 
     public:
-        block_logger(block_printer* prn);
+        block_logger(block_printer* prn, std::size_t ql);
         virtual ~block_logger() noexcept;
 
         void block_built(block_shared b) override;
@@ -58,7 +58,7 @@ class block_threaded_logger : public block_listener
         std::vector<block_stats> m_stats;
 
     public:
-        block_threaded_logger(std::size_t count, block_printer* prn, logname_generator* gen);
+        block_threaded_logger(std::size_t count, block_printer* prn, logname_generator* gen, std::size_t ql);
         virtual ~block_threaded_logger() noexcept;
 
         void block_built(block_shared b) override;

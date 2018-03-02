@@ -16,11 +16,14 @@ class evil_queue
 
     private:
         std::mutex m_lock;
-        std::condition_variable m_cond;
+        std::condition_variable m_cond_data;
+        std::condition_variable m_cond_space;
         std::queue<block_pair> m_blocks;
         bool m_stop = false;
+        std::size_t m_size;
 
     public:
+        explicit evil_queue(std::size_t size);
         block_pair pop();
         void push(block_shared block, const std::string& ts);
         void stop();
