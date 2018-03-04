@@ -14,6 +14,9 @@ class app_mode
         virtual void parse(int argc, const char* argv[]) = 0;
         virtual logname_generator& get_generator() = 0;
         virtual std::size_t get_queue_length() const noexcept = 0;
+
+        virtual std::size_t get_fakebuf_size() const noexcept = 0;
+        virtual std::size_t get_fakework_count() const noexcept = 0;
 };
 
 class app_mode_prod : public app_mode
@@ -29,6 +32,8 @@ class app_mode_prod : public app_mode
         std::string usage(const char* app) override;
         logname_generator& get_generator() override;
         std::size_t get_queue_length() const noexcept override;
+        std::size_t get_fakebuf_size() const noexcept;
+        std::size_t get_fakework_count() const noexcept;
 };
 
 class app_mode_debug : public app_mode
@@ -46,4 +51,6 @@ class app_mode_debug : public app_mode
         std::string usage(const char* app) override;
         logname_generator& get_generator() override;
         std::size_t get_queue_length() const noexcept override;
+        std::size_t get_fakebuf_size() const noexcept;
+        std::size_t get_fakework_count() const noexcept;
 };

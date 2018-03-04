@@ -36,6 +36,16 @@ logname_generator& app_mode_prod::get_generator()
     return m_gen;
 }
 
+std::size_t app_mode_prod::get_fakebuf_size() const noexcept
+{
+    return 10000;
+}
+
+std::size_t app_mode_prod::get_fakework_count() const noexcept
+{
+    return 1000;
+}
+
 std::istream& app_mode_debug::get_istream()
 {
     return m_strm;
@@ -84,4 +94,14 @@ logname_generator& app_mode_debug::get_generator()
 std::size_t app_mode_debug::get_queue_length() const noexcept
 {
     return m_ql;
+}
+
+std::size_t app_mode_debug::get_fakebuf_size() const noexcept
+{
+    return 10000;
+}
+
+std::size_t app_mode_debug::get_fakework_count() const noexcept
+{
+    return 1000;
 }
