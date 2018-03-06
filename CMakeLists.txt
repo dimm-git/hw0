@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 
-project(bulkmt)
+project(async)
 
 find_package(Threads REQUIRED)
 
@@ -14,8 +14,7 @@ else()
     set(OTUS_VERSION_PATCH "0")
 endif()
 
-add_executable(bulkmt src/bulk.cpp
-    include/async_config.h src/async_config.cpp
+add_library(async SHARED include/async_config.h src/async_config.cpp
     include/block_builder.h src/block_builder.cpp
     include/block_listener.h src/block_listener.cpp
     include/block_shared.h
@@ -28,12 +27,16 @@ add_executable(bulkmt src/bulk.cpp
     include/logname_generator.h src/logname_generator.cpp
 )
 
+add_executable(bulkmt src/bulk.cpp)
+target_include_directories(async PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(bulkmt PUBLIC ${PROJECT_SOURCE_DIR}/include)
+# :FIXME: cmake adds -fPIC automatically
+target_compile_options(async PUBLIC -Wall -Wextra -Wpedantic)
 target_compile_options(bulkmt PUBLIC -Wall -Wextra -Wpedantic)
-target_link_libraries(bulkmt Threads::Threads)
-set_target_properties(bulkmt PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+target_link_libraries(bulkmt async Threads::Threads)
+set_target_properties(async bulkmt PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
-install(TARGETS bulkmt DESTINATION bin)
+install(TARGETS async DESTINATION lib)
 
 set(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")
