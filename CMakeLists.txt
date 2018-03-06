@@ -14,7 +14,8 @@ else()
     set(OTUS_VERSION_PATCH "0")
 endif()
 
-add_library(async SHARED include/async_config.h src/async_config.cpp
+add_library(async SHARED include/async.h src/async.cpp
+    include/async_config.h src/async_config.cpp
     include/block_builder.h src/block_builder.cpp
     include/block_listener.h src/block_listener.cpp
     include/block_shared.h
@@ -28,13 +29,17 @@ add_library(async SHARED include/async_config.h src/async_config.cpp
 )
 
 add_executable(bulkmt src/bulk.cpp)
+add_executable(async_cli src/async_cli.cpp)
 target_include_directories(async PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(async_cli PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(bulkmt PUBLIC ${PROJECT_SOURCE_DIR}/include)
 # :FIXME: cmake adds -fPIC automatically
 target_compile_options(async PUBLIC -Wall -Wextra -Wpedantic)
+target_compile_options(async_cli PUBLIC -Wall -Wextra -Wpedantic)
 target_compile_options(bulkmt PUBLIC -Wall -Wextra -Wpedantic)
+target_link_libraries(async_cli async Threads::Threads)
 target_link_libraries(bulkmt async Threads::Threads)
-set_target_properties(async bulkmt PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+set_target_properties(async async_cli bulkmt PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
 install(TARGETS async DESTINATION lib)
 

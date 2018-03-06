@@ -23,9 +23,9 @@ void process_vars(const V1& f1, V2& f2)
 
 void async_config::init()
 {
-    // TODO:
-    static std::array<std::string, 5> env = { "ASYNC_BS",  "ASYNC_QUEUE_LEN", "ASYNC_FBS", "ASYNC_FBC" };
-    std::array<decltype(&this->block_size), 5> fields = { &block_size, &queue_length, &fakebuf_size, &fakebuf_count };
+    // :KLUDGE:
+    static std::array<std::string, 5> env = { "ASYNC_QUEUE_LEN", "ASYNC_FBS", "ASYNC_FBC" };
+    std::array<decltype(&this->block_size), 5> fields = { &queue_length, &fakebuf_size, &fakebuf_count };
     process_vars(env, fields);
 }
 
@@ -86,8 +86,9 @@ onion_block_printer* async_config::make_fake_work_printer()
     return new onion_block_printer(blk_printer.get(), get_fakebuf_size(), get_fakework_count());
 }
 
-async_config::async_config() :
+async_config::async_config(std::size_t bulk) :
     gen(new logname_generator_ms),
+    block_size(bulk),
     build_st(this, &async_config::make_build_state),
     cmd_factory(this, &async_config::make_command_factory),
     inp_handler(this, &async_config::make_input_handler),

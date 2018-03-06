@@ -68,7 +68,7 @@ class async_config
         void init();
 
     public:
-        async_config();
+        async_config(std::size_t bulk = 3);
 
         virtual std::size_t get_block_size() const noexcept;
         virtual logname_generator& get_generator() const noexcept;
