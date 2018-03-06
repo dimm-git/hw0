@@ -21,3 +21,25 @@ std::size_t block_printer_bulk::print(std::ostream& s, const command_block& bloc
     s << std::endl;
     return count;
 }
+
+namespace
+{
+
+void do_fake_work(std::vector<int>& tmp, std::size_t count)
+{
+    for (std::size_t i = 0; i < count; i++)
+        std::generate(tmp.begin(), tmp.end(), std::rand);
+}
+
+}
+
+onion_block_printer::onion_block_printer(block_printer* printer, std::size_t fbsize, std::size_t fbcount) : sibling(printer), fakebuf(fbsize), count(fbcount)
+{
+}
+
+std::size_t onion_block_printer::print(std::ostream& s, const command_block& block)
+{
+    // :KLUDGE: make per-thread fake buffer
+    do_fake_work(fakebuf, count);
+    return sibling->print(s, block);
+}

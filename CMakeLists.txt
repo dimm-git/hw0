@@ -15,8 +15,7 @@ else()
 endif()
 
 add_executable(bulkmt src/bulk.cpp
-    include/app_config.h src/app_config.cpp
-    include/app_mode.h src/app_mode.cpp
+    include/async_config.h src/async_config.cpp
     include/block_builder.h src/block_builder.cpp
     include/block_listener.h src/block_listener.cpp
     include/block_shared.h

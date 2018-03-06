@@ -1,12 +1,13 @@
+#include <fstream>
 #include <iostream>
 
-#include "app_config.h"
+#include "async_config.h"
 #include "input_handler.h"
 
-void go(input_handler* h, std::istream& s);
-void run();
-void wait_all();
-void print_app_stats();
+void go(total_stats* stats, input_handler* h, std::istream& s);
+void run(async_config* cfg, std::istream& stream);
+void wait_all(async_config* cfg);
+void print_app_stats(async_config* cfg);
 void print_thread_stats(const std::vector<block_stats>& s);
 void print_stats(const block_stats& s);
 
@@ -14,8 +15,15 @@ int main(int argc, const char* argv[])
 {
     try
     {
-        app_config::init(argc, argv);
-        run();
+        std::istream* current = &std::cin;
+        std::fstream fin;
+        if (argc > 1)
+        {
+            fin.open(argv[1], std::ios::in);
+            current = &fin;
+        }
+        std::unique_ptr<async_config> cfg(new async_config);
+        run(cfg.get(), *current);
     }
     catch(const std::exception &e)
     {
@@ -25,38 +33,33 @@ int main(int argc, const char* argv[])
     return 0;
 }
 
-void go(input_handler* h, std::istream& s)
+void go(total_stats* stat, input_handler* h, std::istream& s)
 {
-    total_stats* stat = app_config::instance().app_stats.get();
-
     for (std::string line; std::getline(s, line) && h->next(line);)
         stat->line_read();
 
     h->flush();
 }
 
-void run()
+void run(async_config* cfg, std::istream& stream)
 {
-    app_config& i = app_config::instance();
-    go(i.inp_handler.get(), i.get_mode().get_istream());
-    wait_all();
-    print_app_stats();
+    go(cfg->app_stats.get(), cfg->inp_handler.get(), stream);
+    wait_all(cfg);
+    print_app_stats(cfg);
 }
 
-void wait_all()
+void wait_all(async_config* cfg)
 {
-    app_config& i = app_config::instance();
-    i.con_logger->done();
-    i.file_logger->done();
+    cfg->con_logger->done();
+    cfg->file_logger->done();
 }
 
-void print_app_stats()
+void print_app_stats(async_config* cfg)
 {
-    app_config& i = app_config::instance();
     std::cout << std::endl << "Application statistics by thread:" << std::endl;
-    print_thread_stats(i.con_logger->get_stats());
-    print_thread_stats(i.file_logger->get_stats());
-    print_thread_stats(i.app_stats->get_stats());
+    print_thread_stats(cfg->con_logger->get_stats());
+    print_thread_stats(cfg->file_logger->get_stats());
+    print_thread_stats(cfg->app_stats->get_stats());
 }
 
 void print_thread_stats(const std::vector<block_stats>& st)

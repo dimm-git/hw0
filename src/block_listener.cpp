@@ -4,7 +4,7 @@
 #include <functional>
 #include <sstream>
 
-#include "app_config.h"
+#include "async_config.h"
 #include "command_printer.h"
 
 #include "block_listener.h"
@@ -12,16 +12,8 @@
 namespace
 {
 
-void do_fake_work(std::vector<int>& tmp)
-{
-    for (std::size_t i = 0; i < 10; i++)
-        std::generate(tmp.begin(), tmp.end(), std::rand);
-
-}
-
 void console_printer(block_printer* prn, evil_queue* q, block_stats* stats)
 {
-    std::vector<int> tmp(app_config::instance().get_mode().get_fakebuf_size());
     do
     {
         auto data = q->pop();
@@ -31,14 +23,12 @@ void console_printer(block_printer* prn, evil_queue* q, block_stats* stats)
         stats->inc_blk(1);
         std::size_t cmd = prn->print(std::cout, *cb);
         stats->inc_cmd(cmd);
-        do_fake_work(tmp);
     }
     while (true);
 }
 
 void print_func(evil_queue* q, block_printer* prn, block_stats* stats)
 {
-    std::vector<int> tmp(app_config::instance().get_mode().get_fakebuf_size());
     do
     {
         auto data = q->pop();
@@ -49,7 +39,6 @@ void print_func(evil_queue* q, block_printer* prn, block_stats* stats)
         std::ofstream mfs(data.second);
         std::size_t cmd = prn->print(mfs, *cb);
         stats->inc_cmd(cmd);
-        do_fake_work(tmp);
     }
     while (true);
 }
