@@ -1,4 +1,4 @@
 OTUS C++ course  
 
-The "bulk" project  
+The "async" project  
 
