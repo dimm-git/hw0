@@ -25,7 +25,7 @@ class lazy_init
             return val.get();
         }
 
-        bool operator()() const
+        bool is_null() const
         {
             return val.get() == nullptr;
         }

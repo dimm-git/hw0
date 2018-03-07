@@ -33,7 +33,6 @@ evil_queue::block_pair evil_queue::pop()
     return ret;
 }
 
-#include <iostream>
 void evil_queue::push(block_shared block, const std::string& ts)
 {
     std::unique_lock<std::mutex> lock(m_lock);

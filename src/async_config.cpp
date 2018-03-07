@@ -1,3 +1,4 @@
+#include <experimental/array>
 #include <sstream>
 
 #include "async_config.h"
@@ -9,7 +10,7 @@ void process_vars(const V1& f1, V2& f2)
 {
     for (std::size_t i = 0; i < f1.size(); i++)
     {
-        const char* val = std::getenv(f1[i].c_str());
+        const char* val = std::getenv(f1[i]);
         if (val != nullptr)
         {
             std::stringstream ss;
@@ -23,9 +24,8 @@ void process_vars(const V1& f1, V2& f2)
 
 void async_config::init()
 {
-    // :KLUDGE:
-    static std::array<std::string, 5> env = { "ASYNC_QUEUE_LEN", "ASYNC_FBS", "ASYNC_FBC" };
-    std::array<decltype(&this->block_size), 5> fields = { &queue_length, &fakebuf_size, &fakebuf_count };
+    static auto env = std::experimental::make_array("ASYNC_QUEUE_LEN", "ASYNC_FBS", "ASYNC_FBC");
+    auto fields = std::experimental::make_array(&queue_length, &fakebuf_size, &fakebuf_count);
     process_vars(env, fields);
 }
 

@@ -75,7 +75,7 @@ void block_logger::command_rejected(command*)
 
 void block_logger::done()
 {
-    if (m_thread.joinable())
+    if (m_thread.joinable() == true)
     {
         m_queue.stop();
         m_thread.join();
