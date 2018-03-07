@@ -1,8 +1,10 @@
 #include <algorithm>
+#include <atomic>
 #include <iterator>
 #include <memory>
 #include <mutex>
 #include <sstream>
+#include <stack>
 
 #include "async_config.h"
 
@@ -50,103 +52,135 @@ struct rit
     }
 };
 
-}
+class bulk_adapter
+{
+    private:
+        std::unique_ptr<async_config> config;
+        std::stringstream buf;
 
-#include <iostream>
+    public:
+        bulk_adapter(std::size_t bulk) : config(new async_config(bulk))
+        {
+            std::locale x(std::locale::classic(), new the_ctype);
+            buf.imbue(x);
+        }
+
+        void process(const char* data, std::size_t size)
+        {
+            if (size == 0)
+                return;
+
+            auto dbeg = rit(data + size - 1);
+            auto dend = rit(data - 1);
+
+            auto pos = std::find(dbeg, dend, '\n');
+
+            if (dend != pos)
+            {
+                std::size_t lp = pos - data;
+                buf.write(data, lp);
+                std::istream_iterator<std::string> ss{buf};
+                std::istream_iterator<std::string> se;
+                total_stats* ts = config->app_stats.get();
+                input_handler* h = config->inp_handler.get();
+                auto proc = [ ts, h ](std::string line)
+                {
+                    h->next(line);
+                    ts->line_read();
+                };
+                std::for_each(ss, se, proc);
+                data = pos;
+                size = dbeg - pos;
+            }
+            if (size != 0)
+            {
+                buf.clear();
+                buf.write(data, size);
+            }
+        }
+
+        void done()
+        {
+            if (config->inp_handler.is_null() == false)
+                config->inp_handler->flush();
+            if (config->con_logger.is_null() == false)
+                config->con_logger->done();
+            if (config->file_logger.is_null() == false)
+                config->file_logger->done();
+        }
+};
+
+}
 
 struct async_handle
 {
-    std::unique_ptr<async_config> config;
-    // :KLUDGE: it must but not be a smart pointer?
-    // :TODO: make SSHELL
-    std::unique_ptr<std::mutex> lock;
+    std::mutex lock;
+    std::unique_ptr<bulk_adapter> adapter;
+    std::atomic<int> g; // generation
 
-    std::stringstream buf;
-
-    async_handle(std::size_t bulk) : config(new async_config(bulk)), lock(new std::mutex)
+    async_handle(std::size_t bulk) : adapter(new bulk_adapter(bulk))
     {
-        std::locale x(std::locale::classic(), new the_ctype);
-        buf.imbue(x);
-    }
-
-    std::mutex& l()
-    {
-        return *lock.get();
     }
 
     void process(const char* data, std::size_t size)
     {
-        if (size == 0)
-          return;
-
-        auto dbeg = rit(data + size - 1);
-        auto dend = rit(data - 1);
-
-        auto pos = std::find(dbeg, dend, '\n');
-
-        if (dend != pos)
-        {
-            std::size_t lp = pos - data;
-            buf.write(data, lp);
-            std::istream_iterator<std::string> ss{buf};
-            std::istream_iterator<std::string> se;
-            total_stats* ts = config->app_stats.get();
-            input_handler* h = config->inp_handler.get();
-            auto proc = [ ts, h ](std::string line)
-            {
-                h->next(line);
-                ts->line_read();
-            };
-            std::for_each(ss, se, proc);
-            data = pos;
-            size = dbeg - pos;
-        }
-        if (size != 0)
-        {
-            buf.clear();
-            buf.write(data, size);
-        }
+        std::atomic<int> g0;
+        g0.store(g.load());
+        std::unique_lock<std::mutex> lk(lock);
+        if ((g0 != g) || (!adapter))
+            return;
+        adapter->process(data, size);
     }
 
     void done()
     {
-        if (config->inp_handler.is_null() == false)
-            config->inp_handler->flush();
-        if (config->con_logger.is_null() == false)
-            config->con_logger->done();
-        if (config->file_logger.is_null() == false)
-            config->file_logger->done();
+        std::atomic<int> g0;
+        g0.store(g.load());
+        std::unique_lock<std::mutex> lk(lock);
+        if ((g0 != g) || (!adapter))
+            return;
+        adapter->done();
+        adapter.reset(nullptr);
+        g = g + 1;
     }
 
-    ~async_handle() noexcept
+    void reset(std::size_t bulk)
     {
+        adapter.reset(new bulk_adapter(bulk));
+        g = g + 1;
     }
 };
 
 namespace async
 {
 
+static std::mutex pool_lock;
+static std::stack<std::unique_ptr<async_handle> > pool;
+
 handle_t connect(std::size_t bulk)
 {
-    return new async_handle(bulk);
+    std::unique_lock<std::mutex> lock(pool_lock);
+    if (pool.empty())
+        return new async_handle(bulk);
+    std::unique_ptr<async_handle> h(std::move(pool.top()));
+    pool.pop();
+    h->reset(bulk);
+    return h.release();
 }
 
 void receive(handle_t handle, const char *data, std::size_t size)
 {
     async_handle* h = reinterpret_cast<async_handle*>(handle);
-    std::unique_lock<std::mutex> l(h->l());
     h->process(data, size);
 }
 
 void disconnect(handle_t handle)
 {
-    // :KLUDGE: make SSHELL
     async_handle* h = reinterpret_cast<async_handle*>(handle);
-    std::unique_ptr<std::mutex> tmp; // to release it after lock
-    std::unique_lock<std::mutex> lock(h->l());
-    tmp.reset(h->lock.release());
-    h->done();
-    delete h;
+    std::unique_lock<std::mutex> lock(pool_lock);
+    std::unique_ptr<async_handle> guard(h);
+    guard->done();
+    pool.push(std::move(guard));
 }
 
 }

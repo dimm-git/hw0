@@ -35,7 +35,7 @@ target_include_directories(async PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(async_cli PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(bulkmt PUBLIC ${PROJECT_SOURCE_DIR}/include)
 # :FIXME: cmake adds -fPIC automatically
-target_compile_options(async PUBLIC -Wall -Wextra -Wpedantic -g)
+target_compile_options(async PUBLIC -Wall -Wextra -Wpedantic)
 target_compile_options(async_cli PUBLIC -Wall -Wextra -Wpedantic)
 target_compile_options(bulkmt PUBLIC -Wall -Wextra -Wpedantic)
 target_link_libraries(async_cli async Threads::Threads)
