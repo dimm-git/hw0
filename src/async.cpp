@@ -22,8 +22,13 @@ class the_ctype : public std::ctype<char>
         the_ctype(size_t refs = 0) : std::ctype<char>(&the_table[0], false, refs)
         {
             std::copy_n(classic_table(), table_size, the_table);
-            std::replace(the_table, the_table + table_size, ctype_base::space, ctype_base::alpha);
-            the_table['\n'] = (mask)space;
+            auto pred = [ ](decltype(the_table[0]) val) { return (val & ctype_base::space) == ctype_base::space; };
+            for (std::size_t i = 0; i < table_size; i++)
+            {
+                if (pred(the_table[i]) == true)
+                    the_table[i] &= ~ctype_base::space;
+            }
+            the_table['\n'] |= (mask)space;
         }
 };
 
@@ -92,11 +97,9 @@ class bulk_adapter
                 data = pos;
                 size = dbeg - pos;
             }
+            buf.clear();
             if (size != 0)
-            {
-                buf.clear();
                 buf.write(data, size);
-            }
         }
 
         void done()
