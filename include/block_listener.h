@@ -75,6 +75,7 @@ class total_stats : public block_listener
 {
     private:
         std::vector<block_stats> m_stats;
+        std::size_t block_commands = 0;
 
     public:
         total_stats();

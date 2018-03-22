@@ -3,7 +3,7 @@
 D=`dirname "$0"`
 I=`realpath "$D"`
 
-for I in `seq 0 6`; do
+for I in `seq 0 6` 8; do
   echo $I
   "$1" "$D/data/${I}_input.txt" | grep '^bulk' > output.txt
   diff -u "$D/data/${I}_output.txt" "output.txt" || {

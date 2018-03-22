@@ -1,0 +1,2 @@
+bulk: cmd1 cmd2
+bulk:
