@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <functional>
+#include <mutex>
 #include <sstream>
 
 #include "async_config.h"
@@ -14,14 +15,20 @@ namespace
 
 void console_printer(block_printer* prn, evil_queue* q, block_stats* stats)
 {
+    static std::mutex console_lock;
+
     do
     {
         auto data = q->pop();
         auto cb = data.first;
         if (!cb)
             break;
+        std::size_t cmd = 0;
+        {
+            std::lock_guard<std::mutex> guard(console_lock);
+            cmd = prn->print(std::cout, *cb);
+        }
         stats->inc_blk(1);
-        std::size_t cmd = prn->print(std::cout, *cb);
         stats->inc_cmd(cmd);
     }
     while (true);
