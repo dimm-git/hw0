@@ -18,6 +18,7 @@ void logname_generator_ms::update_timestamp()
 std::string logname_generator_ms::name()
 {
     std::stringstream ss;
+    update_timestamp();
     ss << "bulk" << m_tv.tv_sec << "_" << m_tv.tv_usec << ".log";
     m_tv = timeval { 0, 0 };
     return ss.str();

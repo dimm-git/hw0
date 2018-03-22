@@ -155,22 +155,22 @@ total_stats::total_stats()
 void total_stats::block_built(block_shared)
 {
     m_stats[0].inc_blk(1);
+    m_stats[0].inc_cmd(block_commands);
+    block_commands = 0;
 }
 
 void total_stats::block_break(block_shared)
 {
-    // :FIXME:
-    m_stats[0].inc_blk(1);
+    block_commands = 0;
 }
 
 void total_stats::command_accepted(command*)
 {
-    m_stats[0].inc_cmd(1);
+    block_commands++;
 }
 
 void total_stats::command_rejected(command*)
 {
-    m_stats[0].inc_cmd(1);
 }
 
 void total_stats::done()
