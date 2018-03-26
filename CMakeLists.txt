@@ -10,12 +10,12 @@ else()
     set(OTUS_VERSION_PATCH "0")
 endif()
 
-project(async VERSION "${OTUS_VERSION_MAJOR}.${OTUS_VERSION_MINOR}.${OTUS_VERSION_PATCH}")
+project(bulk_server)
 
 find_package(Threads REQUIRED)
 include(GNUInstallDirs)
 
-add_library(async SHARED include/async.h src/async.cpp
+add_library(async STATIC include/async.h src/async.cpp
     include/async_config.h src/async_config.cpp
     include/block_builder.h src/block_builder.cpp
     include/block_listener.h src/block_listener.cpp
@@ -30,21 +30,19 @@ add_library(async SHARED include/async.h src/async.cpp
 )
 
 add_executable(bulkmt src/bulk.cpp)
-add_executable(async_cli src/async_cli.cpp)
+add_executable(bulk_server src/bulk_server.cpp)
 target_include_directories(async PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(async_cli PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(bulk_server PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(bulkmt PUBLIC ${PROJECT_SOURCE_DIR}/include)
 # :FIXME: cmake adds -fPIC automatically
 target_compile_options(async PUBLIC -Wall -Wextra -Wpedantic)
-target_compile_options(async_cli PUBLIC -Wall -Wextra -Wpedantic)
+target_compile_options(bulk_server PUBLIC -Wall -Wextra -Wpedantic)
 target_compile_options(bulkmt PUBLIC -Wall -Wextra -Wpedantic)
-target_link_libraries(async_cli async Threads::Threads)
+target_link_libraries(bulk_server async Threads::Threads)
 target_link_libraries(bulkmt async Threads::Threads)
-set_target_properties(async async_cli bulkmt PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+set_target_properties(bulk_server bulkmt PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
-set_target_properties(async PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties(async PROPERTIES SOVERSION ${OTUS_VERSION_MAJOR})
-install(TARGETS async DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS bulk_server DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 set(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")

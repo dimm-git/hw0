@@ -1,4 +1,4 @@
 OTUS C++ course  
 
-The "async" project  
+The "bulk_server" project  
 
