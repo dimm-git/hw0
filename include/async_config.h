@@ -70,12 +70,12 @@ class async_config
     public:
         async_config(std::size_t bulk = 3);
 
-        virtual std::size_t get_block_size() const noexcept;
-        virtual logname_generator& get_generator() const noexcept;
-        virtual std::size_t get_queue_length() const noexcept;
+        std::size_t get_block_size() const noexcept;
+        logname_generator& get_generator() const noexcept;
+        std::size_t get_queue_length() const noexcept;
 
-        virtual std::size_t get_fakebuf_size() const noexcept;
-        virtual std::size_t get_fakework_count() const noexcept;
+        std::size_t get_fakebuf_size() const noexcept;
+        std::size_t get_fakework_count() const noexcept;
 
         lazy_init<async_config, build_state> build_st;
         lazy_init<async_config, command_factory> cmd_factory;

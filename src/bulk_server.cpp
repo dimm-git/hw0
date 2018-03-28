@@ -1,33 +1,28 @@
 #include <iostream>
-#include <thread>
 
-#include "async.h"
+#include "server.h"
 
-void thread_f0(std::size_t bulk);
-void thread_f1(std::size_t bulk);
-
-int main(int, char *[])
+int main(int argc, char *argv[])
 {
-    std::size_t bulk = 5;
-    auto t0 = std::thread(thread_f0, bulk);
-    auto t1 = std::thread(thread_f1, bulk);
-    t0.join();
-    t1.join();
+    try
+    {
+        if (argc != 3)
+        {
+            std::cerr << "Usage: bulk_server <bulk size> <port>\n";
+            return 1;
+        }
+
+        boost::asio::io_service io_service;
+
+        using namespace std; // For atoi.
+        server s(io_service, atoi(argv[2]), atoi(argv[1]));
+
+        io_service.run();
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << "Exception: " << e.what() << "\n";
+    }
+
     return 0;
-}
-
-void thread_f0(std::size_t bulk)
-{
-    auto h = async::connect(bulk);
-    async::receive(h, "1", 1);
-    async::receive(h, "\n2\n3\n4\n5\n6 7 8 9\n{\na\n", 21);
-    async::receive(h, "b\nc\nd\n}\n89\n", 11);
-    async::disconnect(h);
-}
-
-void thread_f1(std::size_t bulk)
-{
-    auto h2 = async::connect(bulk);
-    async::receive(h2, "1\n", 2);
-    async::disconnect(h2);
 }
