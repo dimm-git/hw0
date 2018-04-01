@@ -11,7 +11,7 @@ server::server(iosvc& io_service, short port, std::size_t bulk) : m_svc(io_servi
 
 void server::start_accept()
 {
-    session *new_session = new session(m_svc, &m_provider);
+    session* new_session = new session(m_svc, &m_provider);
     m_acceptor.async_accept(new_session->get_socket(), boost::bind(&server::handle_accept, this, new_session, ph_error));
 }
 

@@ -68,12 +68,12 @@ block_printer* async_config::make_block_printer()
 
 block_listener* async_config::make_con_logger()
 {
-    return new block_logger(fakework_printer.get(), get_queue_length());
+    return new block_logger(blk_printer.get(), get_queue_length());
 }
 
 block_listener* async_config::make_file_logger()
 {
-    return new block_threaded_logger(2, fakework_printer.get(), &get_generator(), get_queue_length());
+    return new block_threaded_logger(2, blk_printer.get(), &get_generator(), get_queue_length());
 }
 
 total_stats* async_config::make_app_stats()
