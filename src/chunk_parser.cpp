@@ -82,6 +82,7 @@ void bulk_adapter::process(const char* data, std::size_t size)
         std::for_each(ss, se, proc);
         data = pos;
         size = dbeg - pos;
+        ++data;
     }
     buf.clear();
     if (size != 0)
