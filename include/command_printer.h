@@ -41,7 +41,7 @@ class onion_block_printer : public block_printer
 {
     private:
         block_printer* sibling = nullptr;
-        std::vector<int> fakebuf;
+        std::size_t size = 0;
         std::size_t count = 0;
 
     public:
