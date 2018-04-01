@@ -15,7 +15,11 @@ std::size_t block_printer_bulk::print(std::ostream& s, const command_block& bloc
 {
     std::size_t count = 0;
     command_printer& p = m_cmdp;
-    auto f = [ &s, &p, &count ](decltype(*block.begin())& cmd) { s << " "; p.print(s, *cmd.get()); count++; };
+    auto f = [ &s, &p, &count ](decltype(*block.begin())& cmd)
+    {
+        input_command tmp(cmd);
+        s << " "; p.print(s, tmp); count++;
+    };
     s << "bulk:";
     std::for_each(block.begin(), block.end(), f);
     s << std::endl;
@@ -33,13 +37,14 @@ void do_fake_work(std::vector<int>& tmp, std::size_t count)
 
 }
 
-onion_block_printer::onion_block_printer(block_printer* printer, std::size_t fbsize, std::size_t fbcount) : sibling(printer), fakebuf(fbsize), count(fbcount)
+onion_block_printer::onion_block_printer(block_printer* printer, std::size_t fbsize, std::size_t fbcount) : sibling(printer), size(fbsize), count(fbcount)
 {
 }
 
 std::size_t onion_block_printer::print(std::ostream& s, const command_block& block)
 {
     // :KLUDGE: make per-thread fake buffer
+    std::vector<int> fakebuf(size);
     do_fake_work(fakebuf, count);
     return sibling->print(s, block);
 }

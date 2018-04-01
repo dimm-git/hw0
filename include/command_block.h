@@ -11,7 +11,7 @@
 class command_block
 {
     public:
-        using commands = std::list<std::unique_ptr<command> >;
+        using commands = std::list<std::string >;
         using iterator = commands::iterator;
         using const_iterator = commands::const_iterator;
 
