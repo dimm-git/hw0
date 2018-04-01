@@ -15,8 +15,10 @@ bool command_block_handler::next(const std::string& s)
     {
         std::unique_ptr<command> cmd(m_cf->make(s));
         res = m_b->command_add(cmd.get());
+#if 0
         if (res == true)
             cmd.release();
+#endif
     }
     return res;
 }
