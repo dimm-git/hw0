@@ -23,8 +23,8 @@ evil_queue::block_pair evil_queue::pop()
     {
         ret = m_blocks.front();
         m_blocks.pop();
-        lock.unlock();
         m_cond_space.notify_all();
+        lock.unlock();
     }
     else
     {
@@ -49,8 +49,8 @@ void evil_queue::push(block_shared block, const std::string& ts)
         m_cond_space.wait(lock, f);
     }
     m_blocks.push(std::make_pair(block, ts));
-    lock.unlock();
     m_cond_data.notify_one();
+    lock.unlock();
 }
 
 void evil_queue::stop()
