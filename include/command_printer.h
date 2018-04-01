@@ -35,3 +35,15 @@ class block_printer_bulk : public block_printer
         block_printer_bulk(command_printer& p);
         std::size_t print(std::ostream& s, const command_block& block) override;
 };
+
+class onion_block_printer : public block_printer
+{
+    private:
+        block_printer* sibling = nullptr;
+        std::size_t size = 0;
+        std::size_t count = 0;
+
+    public:
+        onion_block_printer(block_printer* printer, std::size_t fbsize, std::size_t fbcount);
+        std::size_t print(std::ostream& s, const command_block& block) override;
+};

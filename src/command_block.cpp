@@ -2,7 +2,7 @@
 
 void command_block::add(command* cmd)
 {
-    m_commands.emplace_back(cmd);
+    m_commands.push_back(cmd->name());
 }
 
 void command_block::clear()
