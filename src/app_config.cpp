@@ -61,17 +61,22 @@ block_printer* app_config::make_block_printer()
 
 block_listener* app_config::make_con_logger()
 {
-    return new block_logger(blk_printer.get(), instance().get_mode().get_queue_length());
+    return new block_logger(fakework_printer.get(), instance().get_mode().get_queue_length());
 }
 
 block_listener* app_config::make_file_logger()
 {
-    return new block_threaded_logger(2, blk_printer.get(), &instance().get_mode().get_generator(), instance().get_mode().get_queue_length());
+    return new block_threaded_logger(2, fakework_printer.get(), &instance().get_mode().get_generator(), instance().get_mode().get_queue_length());
 }
 
 total_stats* app_config::make_app_stats()
 {
     return new total_stats;
+}
+
+onion_block_printer* app_config::make_fake_work_printer()
+{
+    return new onion_block_printer(blk_printer.get(), get_fakebuf_size(), get_fakework_count());
 }
 
 app_config::app_config() :
@@ -83,6 +88,17 @@ app_config::app_config() :
     blk_printer(this, &app_config::make_block_printer),
     con_logger(this, &app_config::make_con_logger),
     file_logger(this, &app_config::make_file_logger),
-    app_stats(this, &app_config::make_app_stats)
+    app_stats(this, &app_config::make_app_stats),
+    fakework_printer(this, &app_config::make_fake_work_printer)
 {
+}
+
+std::size_t app_config::get_fakebuf_size() const noexcept
+{
+    return fakebuf_size;
+}
+
+std::size_t app_config::get_fakework_count() const noexcept
+{
+    return fakebuf_count;
 }

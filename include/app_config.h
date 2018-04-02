@@ -50,6 +50,12 @@ class app_config
         std::unique_ptr<build_state> bstate_plain;
         std::unique_ptr<build_state> bstate_nested;
 
+        std::size_t fakebuf_size = 10000;
+        std::size_t fakebuf_count = 100;
+
+        virtual std::size_t get_fakebuf_size() const noexcept;
+        virtual std::size_t get_fakework_count() const noexcept;
+
         command_factory* make_command_factory();
         input_handler* make_input_handler();
         build_state* make_build_state();
@@ -59,6 +65,7 @@ class app_config
         block_listener* make_con_logger();
         block_listener* make_file_logger();
         total_stats* make_app_stats();
+        onion_block_printer* make_fake_work_printer();
 
     public:
         static void init(int argc, const char* argv[]);
@@ -80,4 +87,5 @@ class app_config
         lazy_init<app_config, block_listener> con_logger;
         lazy_init<app_config, block_listener> file_logger;
         lazy_init<app_config, total_stats> app_stats;
+        lazy_init<app_config, onion_block_printer> fakework_printer;
 };
