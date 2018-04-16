@@ -1,4 +1,4 @@
 OTUS C++ course  
 
-The "bulk_server" project  
+The "join_server" project  
 

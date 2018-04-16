@@ -12,7 +12,7 @@ using endpoint = boost::asio::ip::tcp::endpoint;
 class server
 {
   public:
-    server(iosvc& io_service, short port, std::size_t bulk);
+    server(iosvc& io_service, short port);
 
   private:
     void start_accept();
@@ -20,5 +20,4 @@ class server
 
     iosvc& m_svc;
     acceptor m_acceptor;
-    async_provider m_provider;
 };

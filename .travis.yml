@@ -28,4 +28,4 @@ script:
 deploy:
   provider: script
   skip_cleanup: true
-  script: curl -T bulk_server-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb -udimm-git:$BINTRAY_API_KEY "https://api.bintray.com/content/dimm-git/otus-cpp/bulk_server/$TRAVIS_BUILD_NUMBER/bulk_server-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"
+  script: curl -T join_server-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb -udimm-git:$BINTRAY_API_KEY "https://api.bintray.com/content/dimm-git/otus-cpp/join_server/$TRAVIS_BUILD_NUMBER/join_server-1.0.$TRAVIS_BUILD_NUMBER-x86_64.deb;deb_distribution=trusty;deb_component=main;deb_architecture=amd64;publish=1"

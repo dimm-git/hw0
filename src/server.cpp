@@ -4,14 +4,14 @@ using acceptor = boost::asio::ip::tcp::acceptor;
 using endpoint = boost::asio::ip::tcp::endpoint;
 #define ip_type boost::asio::ip::tcp::v4
 
-server::server(iosvc& io_service, short port, std::size_t bulk) : m_svc(io_service), m_acceptor(io_service, endpoint(ip_type(), port)), m_provider(bulk)
+server::server(iosvc& io_service, short port) : m_svc(io_service), m_acceptor(io_service, endpoint(ip_type(), port))
 {
     start_accept();
 }
 
 void server::start_accept()
 {
-    session* new_session = new session(m_svc, &m_provider);
+    session* new_session = new session(m_svc);
     m_acceptor.async_accept(new_session->get_socket(), boost::bind(&server::handle_accept, this, new_session, ph_error));
 }
 

@@ -8,12 +8,12 @@ int main(int argc, char *argv[])
     {
         if (argc != 3)
         {
-            std::cerr << "Usage: bulk_server <port> <bulk size>\n";
+            std::cerr << "Usage: join_server <port> <bulk size>\n";
             return 1;
         }
 
         boost::asio::io_service io_service;
-        server s(io_service, std::atoi(argv[1]), std::atoi(argv[2]));
+        server s(io_service, std::atoi(argv[1]));
 
         io_service.run();
     }
