@@ -9,6 +9,6 @@ struct record
 struct result_record
 {
     int id;
-    std::string name_a;
-    std::string name_b;
+    std::string* name_a;
+    std::string* name_b;
 };

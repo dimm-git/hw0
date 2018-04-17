@@ -28,6 +28,16 @@ class table_not_found : public dbexception
         const char* what() const throw() override;
 };
 
+class record_not_found : public dbexception
+{
+    private:
+        std::string m_text;
+
+    public:
+        record_not_found(const std::string& tab_name, int id);
+        const char* what() const throw() override;    
+};
+
 class invalid_args_count : public dbexception
 {
     private:

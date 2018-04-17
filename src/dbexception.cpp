@@ -26,6 +26,18 @@ const char* table_not_found::what() const throw()
     return m_text.c_str();
 }
 
+record_not_found::record_not_found(const std::string& tab_name, int id)
+{
+    std::stringstream s;
+    s << "record " << id << "not found in " << tab_name;
+    m_text = s.str();
+}
+
+const char* record_not_found::what() const throw()
+{
+    return m_text.c_str();
+}
+
 invalid_args_count::invalid_args_count(const std::string& name, int count)
 {
     std::stringstream s;
