@@ -15,28 +15,43 @@ endif()
 
 project(join_server)
 
-find_package(Boost COMPONENTS system REQUIRED)
+find_package(Boost COMPONENTS system unit_test_framework REQUIRED)
 find_package(Threads REQUIRED)
 include(GNUInstallDirs)
 
 add_library(join STATIC
-    include/server.h src/server.cpp
-    include/session.h src/session.cpp
+    include/database.h src/database.cpp
+    include/dbexception.h src/dbexception.cpp
+    include/insert.h src/insert.cpp
+    include/operation.h
+    include/record.h
+    include/table.h src/table.cpp
 )
 
-add_executable(join_server src/join_server.cpp)
+add_executable(jointst
+    src/jointst.cpp
+)
+
+add_executable(join_server
+    include/server.h src/server.cpp
+    include/session.h src/session.cpp
+    src/join_server.cpp
+)
 
 target_include_directories(join PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(join_server PUBLIC ${PROJECT_SOURCE_DIR}/include ${Boost_INCLUDE_DIRS})
+target_include_directories(jointst PUBLIC ${PROJECT_SOURCE_DIR}/include ${Boost_INCLUDE_DIR})
 
 target_compile_options(join PUBLIC -Wall -Wextra -Wpedantic)
 target_compile_options(join_server PUBLIC -Wall -Wextra -Wpedantic)
+target_compile_options(jointst PUBLIC -Wall -Wextra -Wpedantic)
+target_compile_definitions(jointst PUBLIC BOOST_TEST_DYN_LINK)
 
 link_directories(${Boost_LIBRARY_DIRS})
 target_link_libraries(join_server join Boost::system Threads::Threads)
-# target_link_libraries(bulkmt async Threads::Threads)
+target_link_libraries(jointst join ${Boost_LIBRARIES})
 
-set_target_properties(join_server join PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+set_target_properties(join_server jointst join PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
 install(TARGETS join_server DESTINATION ${CMAKE_INSTALL_BINDIR})
 
