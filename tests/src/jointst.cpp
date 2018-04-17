@@ -99,4 +99,22 @@ BOOST_AUTO_TEST_CASE(test_intersect)
     BOOST_CHECK(size == 3);
 }
 
+BOOST_AUTO_TEST_CASE(test_sym_diff)
+{
+    database db;
+    db.add_table("A");
+    db.add_table("B");
+    table& a = db.find("A");
+    table& b = db.find("B");
+    fill(a, b);
+    operation_result res{};
+    op_sym_diff sd{};
+    std::list<std::string> l = { "A", "B" };
+    sd.initialize(l);
+    table_list lst = { &a, &b };
+    sd.apply(res, lst);
+    std::size_t size = std::distance(res.begin(), res.end());
+    BOOST_CHECK(size == 6);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
