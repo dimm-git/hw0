@@ -29,7 +29,7 @@ add_library(join STATIC
 )
 
 add_executable(jointst
-    src/jointst.cpp
+    tests/src/jointst.cpp
 )
 
 add_executable(join_server
@@ -63,8 +63,7 @@ set(CPACK_PACKAGE_VERSION_PATCH ${OTUS_VERSION_PATCH})
 execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
 string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 
-# enable_testing()
-# add_test(NAME input COMMAND "${PROJECT_SOURCE_DIR}/tests/maketests.sh" "${PROJECT_BINARY_DIR}/bulkmt")
-# add_test(NAME stats COMMAND "${PROJECT_SOURCE_DIR}/tests/maketests_stats.sh" "${PROJECT_BINARY_DIR}/bulkmt")
+enable_testing()
+add_test(NAME jointst COMMAND "${PROJECT_BINARY_DIR}/jointst")
 
 include(CPack)

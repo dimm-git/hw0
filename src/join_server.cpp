@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     {
         if (argc != 3)
         {
-            std::cerr << "Usage: join_server <port> <bulk size>\n";
+            std::cerr << "Usage: join_server <port>\n";
             return 1;
         }
 
