@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(test_insert)
     std::size_t size = std::distance(t.begin(), t.end());
     BOOST_CHECK(size == 0);
 
-    insert ins{};
+    op_insert ins{};
     std::list<std::string> l = { "A", "0", "00" };
     ins.initialize(l);
     table_list lst = { &t };
@@ -35,6 +35,33 @@ BOOST_AUTO_TEST_CASE(test_insert)
     BOOST_CHECK(size == 2);
 
     BOOST_CHECK_THROW(ins.apply(lst), duplicate_pk);
+}
+
+BOOST_AUTO_TEST_CASE(test_truncate)
+{
+    database db;
+    db.add_table("A");
+    auto& t = db.find("A");
+    std::size_t size = std::distance(t.begin(), t.end());
+    BOOST_CHECK(size == 0);
+
+    op_insert ins{};
+    std::list<std::string> l = { "A", "0", "00" };
+    std::list<std::string> l1 = { "A", "1", "11"};
+    ins.initialize(l);
+    table_list lst = { &t };
+    ins.apply(lst);
+    ins.initialize(l1);
+    ins.apply(lst);
+    size = std::distance(t.begin(), t.end());
+    BOOST_CHECK(size == 2);
+
+    std::list<std::string> l2 = { "A" };
+    op_truncate tr{};
+    tr.initialize(l2);
+    tr.apply(lst);
+    size = std::distance(t.begin(), t.end());
+    BOOST_CHECK(size == 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
