@@ -1,0 +1,7 @@
+0,lean,
+1,sweater,
+2,frank,
+6,,flour
+7,,wonder
+8,,selection
+OK

@@ -12,6 +12,10 @@ class op_insert : public operation
         void initialize(const operation_args& args) override;
         table_name_list affected() const override;
         void apply(operation_result& res, table_list& list) override;
+        bool modification() const noexcept override
+        {
+            return true;
+        }
 };
 
 class op_truncate : public operation
@@ -23,6 +27,10 @@ class op_truncate : public operation
         void initialize(const operation_args& args) override;
         table_name_list affected() const override;
         void apply(operation_result& res, table_list& list) override;
+        bool modification() const noexcept override
+        {
+            return true;
+        }
 };
 
 class op_intersect : public operation
@@ -34,7 +42,13 @@ class op_intersect : public operation
     public:
         void initialize(const operation_args& args) override;
         table_name_list affected() const override;
-        void apply(operation_result& res, table_list& list) override;        
+        void apply(operation_result& res, table_list& list) override;
+
+        bool modification() const noexcept override
+        {
+            return false;
+        }
+
 };
 
 class op_sym_diff : public operation
@@ -46,5 +60,9 @@ class op_sym_diff : public operation
     public:
         void initialize(const operation_args& args) override;
         table_name_list affected() const override;
-        void apply(operation_result& res, table_list& list) override;        
+        void apply(operation_result& res, table_list& list) override;
+        bool modification() const noexcept override
+        {
+            return false;
+        }
 };

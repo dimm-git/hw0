@@ -18,4 +18,6 @@ class operation
         virtual void initialize(const operation_args& args) = 0;
         virtual table_name_list affected() const = 0;
         virtual void apply(operation_result& res, table_list& list) = 0;
+
+        virtual bool modification() const noexcept = 0;
 };

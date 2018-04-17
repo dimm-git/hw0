@@ -23,6 +23,7 @@ add_library(join STATIC
     include/database.h src/database.cpp
     include/dbexception.h src/dbexception.cpp
     include/dbops.h src/dbops.cpp
+    include/lock_manager.h src/lock_manager.cpp
     include/operation.h
     include/record.h
     include/table.h src/table.cpp
@@ -65,5 +66,6 @@ string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 
 enable_testing()
 add_test(NAME jointst COMMAND "${PROJECT_BINARY_DIR}/jointst")
+# add_test(NAME input COMMAND "${PROJECT_SOURCE_DIR}/tests/maketests.sh" "${PROJECT_BINARY_DIR}/join_server")
 
 include(CPack)

@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     try
     {
-        if (argc != 3)
+        if (argc != 2)
         {
             std::cerr << "Usage: join_server <port>\n";
             return 1;

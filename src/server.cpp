@@ -1,3 +1,5 @@
+#include "database.h"
+
 #include "server.h"
 
 using acceptor = boost::asio::ip::tcp::acceptor;
@@ -6,12 +8,15 @@ using endpoint = boost::asio::ip::tcp::endpoint;
 
 server::server(iosvc& io_service, short port) : m_svc(io_service), m_acceptor(io_service, endpoint(ip_type(), port))
 {
+    m_db.add_table("A");
+    m_db.add_table("B");
+
     start_accept();
 }
 
 void server::start_accept()
 {
-    session* new_session = new session(m_svc);
+    session* new_session = new session(m_svc, m_db, m_lm);
     m_acceptor.async_accept(new_session->get_socket(), boost::bind(&server::handle_accept, this, new_session, ph_error));
 }
 
