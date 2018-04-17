@@ -4,7 +4,7 @@
 
 #include "dbops.h"
 
-void insert::initialize(const operation_args& args)
+void op_insert::initialize(const operation_args& args)
 {
     if (args.size() != 3)
         throw invalid_args_count("insert/0", 3);
@@ -16,15 +16,35 @@ void insert::initialize(const operation_args& args)
     m_record.name = *i;
 }
 
-table_name_list insert::affected() const
+table_name_list op_insert::affected() const
 {
     table_name_list names = { m_table };
     return names;
 }
 
-void insert::apply(table_list& list)
+void op_insert::apply(table_list& list)
 {
     if (list.size() != 1)
         throw invalid_args_count("insert/1", 1);
     list[0]->insert(std::move(m_record));
+}
+
+void op_truncate::initialize(const operation_args& args)
+{
+    if (args.size() != 1)
+        throw invalid_args_count("truncate", 1);
+    m_table = *args.begin();
+}
+
+table_name_list op_truncate::affected() const
+{
+    table_name_list names = { m_table };
+    return names;
+}
+
+void op_truncate::apply(table_list& list)
+{
+    if (list.size() != 1)
+        throw invalid_args_count("insert/1", 1);
+    list[0]->truncate();
 }

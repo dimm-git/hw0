@@ -2,7 +2,7 @@
 
 #include "dbexception.h"
 
-duplicate_pk::duplicate_pk(const std::string& table, int id)
+duplicate_pk::duplicate_pk(const std::string&, int id)
 {
     std::stringstream s;
     s << "duplicate " << id;
