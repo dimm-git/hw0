@@ -6,10 +6,12 @@
 
 #include "table.h"
 
+using table_type = std::unique_ptr<table>;
+
 class database
 {
     private:
-        using tables = std::list<table>;
+        using tables = std::list<table_type>;
         tables m_tables;
 
     public:

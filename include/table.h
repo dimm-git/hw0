@@ -6,16 +6,18 @@
 
 #include "record.h"
 
+using record_type = std::unique_ptr<record>;
+
 struct record_less
 {
-    bool operator()(const record& l, const record& r) const;
+    bool operator()(const record_type& l, const record_type& r) const;
 };
 
 class table
 {
     public:
         // static bool record_less(const record& l, const record& r);
-        using records = std::set<record, record_less>;
+        using records = std::set<record_type, record_less>;
         using iterator = records::iterator;
         using const_iterator = records::const_iterator;
 

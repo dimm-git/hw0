@@ -2,7 +2,7 @@
 
 #include "dbexception.h"
 
-#include "insert.h"
+#include "dbops.h"
 
 void insert::initialize(const operation_args& args)
 {

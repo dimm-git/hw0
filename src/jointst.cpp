@@ -7,7 +7,7 @@
 
 #include "database.h"
 #include "dbexception.h"
-#include "insert.h"
+#include "dbops.h"
 
 BOOST_AUTO_TEST_SUITE(test_suite)
 

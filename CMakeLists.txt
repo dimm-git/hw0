@@ -22,7 +22,7 @@ include(GNUInstallDirs)
 add_library(join STATIC
     include/database.h src/database.cpp
     include/dbexception.h src/dbexception.cpp
-    include/insert.h src/insert.cpp
+    include/dbops.h src/dbops.cpp
     include/operation.h
     include/record.h
     include/table.h src/table.cpp

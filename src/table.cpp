@@ -2,9 +2,9 @@
 
 #include "table.h"
 
-bool record_less::operator()(const record& l, const record& r) const
+bool record_less::operator()(const record_type& l, const record_type& r) const
 {
-    return l.id < r.id;
+    return l->id < r->id;
 }
 
 table::table(std::string name) : m_name(name)
@@ -13,7 +13,8 @@ table::table(std::string name) : m_name(name)
 
 void table::insert(record&& rec)
 {
-    auto ret = m_records.insert(rec);
+    auto r = std::make_unique<record>(rec);
+    auto ret = m_records.insert(std::move(r));
     if (ret.second == false)
         throw duplicate_pk(rec.name, rec.id);
 }
