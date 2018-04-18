@@ -1,0 +1,44 @@
+cmake_minimum_required(VERSION 3.2)
+
+set(OTUS_VERSION_MAJOR "1")
+set(OTUS_VERSION_MINOR "0")
+
+if(DEFINED ENV{TRAVIS_BUILD_NUMBER})
+    message(STATUS "TRAVIS_BUILD_NUMBER: " "$ENV{TRAVIS_BUILD_NUMBER}")
+    set(OTUS_VERSION_PATCH "$ENV{TRAVIS_BUILD_NUMBER}")
+else()
+    set(OTUS_VERSION_PATCH "0")
+endif()
+
+project(yamr)
+
+find_package(Threads REQUIRED)
+include(GNUInstallDirs)
+
+add_library(lyamr STATIC
+    include/split.h src/split.cpp
+)
+
+add_executable(yamr
+    src/yamr.cpp
+)
+
+target_include_directories(lyamr PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(yamr PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
+target_compile_options(lyamr PUBLIC -Wall -Wextra -Wpedantic)
+target_compile_options(yamr PUBLIC -Wall -Wextra -Wpedantic)
+target_link_libraries(yamr lyamr)
+set_target_properties(lyamr yamr PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+
+install(TARGETS yamr DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+set(CPACK_GENERATOR "DEB")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")
+set(CPACK_PACKAGE_VERSION_MAJOR ${OTUS_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${OTUS_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${OTUS_VERSION_PATCH})
+execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
+string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
+
+include(CPack)
