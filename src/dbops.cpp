@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <thread>
 
 #include "dbexception.h"
 
@@ -211,4 +212,29 @@ void op_sym_diff::apply(operation_result& res, table_list& list)
     };
     isect_iterator it(res, *list[0]);
     do_set_symmetric_difference(list[0]->begin(), list[0]->end(), list[1]->begin(), list[1]->end(), it, cmp);
+}
+
+void op_freeze::initialize(const operation_args& args)
+{
+    if (args.size() != 3)
+        throw invalid_args_count("freeze/0", 3);
+    auto i = args.begin();
+    m_table = *i;
+    ++i;
+    m_timeout_ms = std::atoi((*i).c_str());
+    ++i;
+    m_exclusive = std::atoi((*i).c_str());
+}
+
+table_name_list op_freeze::affected() const
+{
+    table_name_list names = { m_table };
+    return names;
+}
+
+void op_freeze::apply(operation_result&, table_list& list)
+{
+    if (list.size() != 1)
+        throw invalid_args_count("freeze/1", 1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(m_timeout_ms));
 }

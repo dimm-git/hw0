@@ -66,3 +66,21 @@ class op_sym_diff : public operation
             return false;
         }
 };
+
+class op_freeze : public operation
+{
+    private:
+        std::string m_table;
+        int m_timeout_ms;
+        bool m_exclusive;
+
+    public:
+        void initialize(const operation_args& args) override;
+        table_name_list affected() const override;
+        void apply(operation_result& res, table_list& list) override;
+        bool modification() const noexcept override
+        {
+            return m_exclusive;
+        }
+
+};

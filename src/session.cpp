@@ -28,6 +28,10 @@ operation* do_make_operation(const std::string& name, operation_args& args)
         args.push_back("B");
         op.reset(new op_sym_diff);
     }
+    else if (name == "FREEZE")
+    {
+        op.reset(new op_freeze);
+    }
     else 
         throw std::runtime_error("invalid operation");
     op->initialize(args);

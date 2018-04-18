@@ -66,6 +66,7 @@ void lock_manager::shared_unlock(table_list& tabs)
     std::unique_lock<std::mutex> guard(m_lock);
     std::function<void(std::shared_timed_mutex&)> unlock = &std::shared_timed_mutex::unlock_shared;
     rec_unlock(tabs.begin(), tabs.end(), unlock);
+    m_signal.notify_all();
 }
 
 void lock_manager::exclusive_unlock(table_list& tabs)
@@ -73,4 +74,5 @@ void lock_manager::exclusive_unlock(table_list& tabs)
     std::unique_lock<std::mutex> guard(m_lock);
     std::function<void(std::shared_timed_mutex&)> unlock = &std::shared_timed_mutex::unlock;
     rec_unlock(tabs.begin(), tabs.end(), unlock);
+    m_signal.notify_all();
 }
