@@ -18,6 +18,8 @@ include(GNUInstallDirs)
 add_library(lyamr STATIC
     include/mapper.h src/mapper.cpp
     include/mapping.h src/mapping.cpp
+    include/reduce.h src/reduce.cpp
+    include/reducer.h src/reducer.cpp
     include/shuffle.h src/shuffle.cpp
     include/shuffler.h src/shuffler.cpp
     include/split.h src/split.cpp

@@ -2,6 +2,7 @@
 
 #include "mapping.h"
 #include "shuffle.h"
+#include "reduce.h"
 
 void run(const std::string& src, int mnum, int rnum);
 
@@ -38,6 +39,7 @@ void run(const std::string& src, int mnum, int rnum)
         make_map(m, src, mnum);
         make_shuffle(s, m, rnum);
     }
+    make_reduce(s);
 #if 1
     for (auto& i : s)
     {

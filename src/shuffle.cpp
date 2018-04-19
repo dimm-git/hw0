@@ -56,7 +56,6 @@ void sort(shuffler& sh, std::size_t count)
     }
     for (auto& v : t)
         v.join();
-    
 }
 
 }
