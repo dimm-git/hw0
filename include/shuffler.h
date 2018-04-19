@@ -14,5 +14,6 @@ class shuffler
     public:
         shuffler(int r);
         void emplace(std::string& str);
+        void sort(std::size_t i);
         maps&& result();
 };
