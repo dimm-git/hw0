@@ -1,18 +1,18 @@
 #pragma once
 
+#include <stdexcept>
 #include <string>
 #include <vector>
 
-class splitter
+#include "ymrt.h"
+
+class file_splitter
 {
     private:
         std::string m_path;
         std::size_t m_window;
 
     public:
-        using offsets = std::vector<std::size_t>;
-
-    public:
-        splitter(const std::string& path, std::size_t window_size);
+        file_splitter(const std::string& path);
         void split(offsets& offsets, std::size_t count);
 };

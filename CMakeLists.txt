@@ -16,7 +16,12 @@ find_package(Threads REQUIRED)
 include(GNUInstallDirs)
 
 add_library(lyamr STATIC
+    include/mapper.h src/mapper.cpp
+    include/mapping.h src/mapping.cpp
+    include/shuffle.h src/shuffle.cpp
+    include/shuffler.h src/shuffler.cpp
     include/split.h src/split.cpp
+    include/ymrt.h
 )
 
 add_executable(yamr
@@ -28,7 +33,7 @@ target_include_directories(yamr PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 target_compile_options(lyamr PUBLIC -Wall -Wextra -Wpedantic)
 target_compile_options(yamr PUBLIC -Wall -Wextra -Wpedantic)
-target_link_libraries(yamr lyamr)
+target_link_libraries(yamr lyamr Threads::Threads)
 set_target_properties(lyamr yamr PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
 install(TARGETS yamr DESTINATION ${CMAKE_INSTALL_BINDIR})
