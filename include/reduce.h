@@ -1,3 +1,5 @@
 #pragma once
 
-void make_reduce(maps& m);
+#include "ymrt.h"
+
+void make_reduce(std::vector<results>& r, maps& m);

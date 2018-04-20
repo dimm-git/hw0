@@ -5,10 +5,16 @@
 class reducer
 {
     private:
-        std::list<std::string> m_lst;
+        results m_lst;
+        results::iterator m_start = m_lst.end();
 
     public:
         reducer();
         void reduce(const std::string& str);
-        std::list<std::string>&& result();
+        results&& result();
+
+    private:
+        void add_item(const std::string& str);
+        void update_item(const std::string& str);
+        void build_prefix(prefix& l, prefix& r);
 };

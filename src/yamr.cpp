@@ -33,19 +33,23 @@ int main(int argc, char* argv[])
 
 void run(const std::string& src, int mnum, int rnum)
 {
-    maps s;
+    std::vector<results> res;
     {
-        maps m;
-        make_map(m, src, mnum);
-        make_shuffle(s, m, rnum);
-    }
-    make_reduce(s);
-#if 1
-    for (auto& i : s)
-    {
-        for (auto& j: i)
-            std::cout << j << std::endl;
-        std::cout << std::endl;
-    }
+        maps s;
+        {
+            maps m;
+            make_map(m, src, mnum);
+            make_shuffle(s, m, rnum);
+        }
+        make_reduce(res, s);
+#if 0
+        for (auto& i : s)
+        {
+            for (auto& j: i)
+                std::cout << j << std::endl;
+            std::cout << std::endl;
+        }
 #endif
+    }
+
 }

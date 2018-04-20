@@ -15,6 +15,8 @@ void sort(shuffler& sh, std::size_t count);
 void make_shuffle(maps& s, maps& r, int cr)
 {
     shuffler sh(cr);
+    // :FIXME: I beleive parallel sorting after fast insert is much faster 
+    // because of possible insert collisions. No?
     emplace(sh, r);
     sort(sh, cr);
     s = sh.result();
