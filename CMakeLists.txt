@@ -38,7 +38,19 @@ target_link_libraries(kgen dlib::dlib ${BLAS_LIBRARIES})
 set_target_properties(kkmeans kgen PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
 install(TARGETS kkmeans kgen DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(FILES ${PROJECT_SOURCE_DIR}/gnuplot/gp2 DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/kkmeans)
+install(
+    FILES
+	${PROJECT_SOURCE_DIR}/gnuplot/gp2
+	${PROJECT_SOURCE_DIR}/gnuplot/gp3
+	${PROJECT_SOURCE_DIR}/data/kkmeans_ex_class.png
+	${PROJECT_SOURCE_DIR}/data//kkmeans_ex.png
+	${PROJECT_SOURCE_DIR}/data/kkmeans_ex.txt
+	${PROJECT_SOURCE_DIR}/data/stars_class.png
+	${PROJECT_SOURCE_DIR}/data/stars_class.txt
+	${PROJECT_SOURCE_DIR}/data/stars.png
+	${PROJECT_SOURCE_DIR}/data/stars.txt
+    DESTINATION
+	${CMAKE_INSTALL_DATAROOTDIR}/kkmeans)
 install(FILES ${PROJECT_SOURCE_DIR}/gnuplot/kvis DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 set(CPACK_GENERATOR "DEB")
