@@ -19,16 +19,25 @@ find_package(BLAS REQUIRED)
 
 include(GNUInstallDirs)
 
-add_library(kkmeans STATIC
+add_executable(kkmeans
     src/kkmeans.cpp
+    src/kfunc.cpp
+)
+
+add_executable(kgen
+    src/kgen.cpp
+    src/kfunc.cpp
 )
 
 target_include_directories(kkmeans PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories(kgen PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_compile_options(kkmeans PUBLIC -Wall -Wextra -Wpedantic)
+target_compile_options(kgen PUBLIC -Wall -Wextra -Wpedantic)
 target_link_libraries(kkmeans dlib::dlib ${BLAS_LIBRARIES})
-set_target_properties(kkmeans PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
+target_link_libraries(kgen dlib::dlib ${BLAS_LIBRARIES})
+set_target_properties(kkmeans kgen PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
-install(TARGETS kkmeans DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(TARGETS kkmeans kgen DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 set(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")
