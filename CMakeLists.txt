@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.2)
 
-
-
 set(OTUS_VERSION_MAJOR "1")
 set(OTUS_VERSION_MINOR "0")
 
@@ -29,6 +27,8 @@ add_executable(kgen
     src/kfunc.cpp
 )
 
+configure_file ("${PROJECT_SOURCE_DIR}/gnuplot/kvis.in" "${PROJECT_SOURCE_DIR}/gnuplot/kvis")
+
 target_include_directories(kkmeans PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(kgen PUBLIC ${PROJECT_SOURCE_DIR}/include)
 target_compile_options(kkmeans PUBLIC -Wall -Wextra -Wpedantic)
@@ -38,12 +38,15 @@ target_link_libraries(kgen dlib::dlib ${BLAS_LIBRARIES})
 set_target_properties(kkmeans kgen PROPERTIES CXX_STANDARD 14 CXX_STANDARD_REQUIRED ON)
 
 install(TARGETS kkmeans kgen DESTINATION ${CMAKE_INSTALL_BINDIR})
+install(FILES ${PROJECT_SOURCE_DIR}/gnuplot/gp2 DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/kkmeans)
+install(FILES ${PROJECT_SOURCE_DIR}/gnuplot/kvis DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 set(CPACK_GENERATOR "DEB")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "none")
 set(CPACK_PACKAGE_VERSION_MAJOR ${OTUS_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${OTUS_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${OTUS_VERSION_PATCH})
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "gnuplot feh libopenblas libdlib")
 execute_process(COMMAND "uname" "-m" OUTPUT_VARIABLE PKG_MACH)
 string(STRIP ${PKG_MACH} CPACK_SYSTEM_NAME)
 

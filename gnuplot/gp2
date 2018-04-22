@@ -1,0 +1,6 @@
+set terminal png
+set output ARG1
+set xlabel "x"
+set ylabel "y"
+dformat = "\"%lf;%lf;%lf\""
+plot "<cat" using 1:2 @dformat with points pt 7 notitle

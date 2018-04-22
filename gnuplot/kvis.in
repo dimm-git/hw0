@@ -1,0 +1,23 @@
+#!/bin/sh
+
+[ $# -eq 1 ] || {
+    echo "Usage: " 1>&2
+    echo "cat input.txt | kkmeans N | $0 output or" 1>&2
+    echo "cat input.txt | $0 output" 1>&2
+    exit 1
+}
+
+GPATH="/ush/share/kkmeans"
+GPLOT="gp2"
+
+read line
+NF=`echo $line | awk -F';' ' { print NF; } '`
+
+[ $NF -eq 3 ] && { GPLOT="gp3"; }
+
+{
+  echo $line
+  while read line; do
+    echo $line
+  done
+} | gnuplot -c "$GPATH/$GPLOT" "$1"
