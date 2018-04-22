@@ -20,4 +20,16 @@ NF=`echo $line | awk -F';' ' { print NF; } '`
   while read line; do
     echo $line
   done
-} | gnuplot -c "$GPATH/$GPLOT" "$1"
+} | gnuplot -c "$GPATH/$GPLOT" "$1" || 
+{
+  echo "GNU plot failed" 1>&2
+  exit 1
+}
+
+if [ -z "$DISPLAY" ]; then
+  echo "Could not display image. Graphical display doesn't exist." 1>&2
+  echo "Please download and display $1 manually." 1>&2
+  exit 1
+fi
+
+feh "$1"
